@@ -1,0 +1,16 @@
+﻿@model Site.Infrastuctures.ModelHelpers.Product.ProductModel
+
+<div class="plusminuscontrol">
+	<div class="plusminus">
+		<div class="a-plus-minus" onclick="javascript:MinusClick('@Model.Id');">
+			<strong>-</strong></div>
+		<input name="plus-minus-input-control" id="pl-@Model.Id" onkeydown="javascript:BlockNonNumbers(this, event, true, false, 3); " style="width:30px; text-align: right;"/>
+		<div class="a-plus-minus" onclick="javascript:PlusClick('@Model.Id'); ">
+			<strong>+</strong></div>
+	</div>
+	<div class="buybutton">
+		<a href="#" onclick="javascript:AddProductToCart('@Model.Id', '@Model.CampaignPrice', '@Model.Price', '@Model.Name', null); return false;">
+		</a>
+	</div>
+</div>
+

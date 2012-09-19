@@ -1,0 +1,30 @@
+﻿@using Litium.Resources
+@model Site.Infrastuctures.Security.Model.LogOnModel
+
+@using (Html.BeginForm("Authenticate", "Authorization"))
+{
+    <fieldset class="form">
+        <h4>@WebStroreResource.EnterYourAccount</h4>
+		<div>
+        <div class="editor-label">
+            @Html.LabelFor(m => m.LoginName)</div>
+        <div class="editor-field">
+            @Html.TextBoxFor(m => m.LoginName)
+            <div class="validation-line">
+                @Html.ValidationMessageFor(m => m.LoginName)</div>
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(m => m.Password)
+        </div>
+        <div class="editor-field">
+            @Html.PasswordFor(m => m.Password)
+            <div class="validation-line">
+                @Html.ValidationMessageFor(m => m.Password)</div>
+        </div>
+		</div>
+        <div class="textalignright">
+            <input type="submit" value="@WebStroreResource.Login" class="button" />
+        </div>
+    </fieldset>
+}
+

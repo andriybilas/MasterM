@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{681339D2-DBDF-47A4-9B2D-96DBED7FF3E0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Litium.Common</RootNamespace>
+    <AssemblyName>Litium.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\..\..\packages\NHibernate.3.2.0.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configurations\AccountSettingsConfig.cs" />
+    <Compile Include="Configurations\SystemUserConfig.cs" />
+    <Compile Include="Configurations\GlobalizationSection.cs" />
+    <Compile Include="Configurations\LitiumConfigs.cs" />
+    <Compile Include="Configurations\DataSection.cs" />
+    <Compile Include="Configurations\LitiumSectionGroup.cs" />
+    <Compile Include="Configurations\PluginSection.cs" />
+    <Compile Include="CustomSerialization\NotSerializableAttribute.cs" />
+    <Compile Include="DataAccess\IDataCacheManager.cs" />
+    <Compile Include="DataAccess\IDataAccessRepository.cs" />
+    <Compile Include="DataAccess\GlobalRepository.cs" />
+    <Compile Include="DataAccess\IDataTransactionManager.cs" />
+    <Compile Include="DataAccess\IDataRepositoryManager.cs" />
+    <Compile Include="Resources\ResourceExpressionBuilder.cs" />
+    <Compile Include="Resources\ResourceExpressionFields.cs" />
+    <Compile Include="Resources\ResourceProvider.cs" />
+    <Compile Include="Resources\ResourceProviderFactory.cs" />
+    <Compile Include="Resources\ResourceReader.cs" />
+    <Compile Include="Validation\CustomAttribute\ReferenceRequaredAttribute.cs" />
+    <Compile Include="Validation\CustomAttribute\CountValueCompatibleAttribute.cs" />
+    <Compile Include="Validation\CustomAttribute\PriceValueCompatibleAttribute.cs" />
+    <Compile Include="WorkUnit\TransactionCommitHandler.cs" />
+    <Compile Include="WorkUnit\TransactionDefaultHandler.cs" />
+    <Compile Include="WorkUnit\TransactionRollbackHandler.cs" />
+    <Compile Include="WorkUnit\UnitOfWork.cs" />
+    <Compile Include="InversionOfControl\LitiumCommonInstaller.cs" />
+    <Compile Include="Repository.cs" />
+    <Compile Include="Events\EntityEventArgs.cs" />
+    <Compile Include="Events\EventDispatcher.cs" />
+    <Compile Include="Events\EventHandlingException.cs" />
+    <Compile Include="Events\EventTypes.cs" />
+    <Compile Include="Events\IAsyncEventListener.cs" />
+    <Compile Include="Events\IEventListener.cs" />
+    <Compile Include="Extensions\ReflectionExtension.cs" />
+    <Compile Include="InversionOfControl\ComponentRegistration.cs" />
+    <Compile Include="InversionOfControl\IComponentInstaller.cs" />
+    <Compile Include="InversionOfControl\IComponentRegistrationProcessor.cs" />
+    <Compile Include="InversionOfControl\IIoCContainer.cs" />
+    <Compile Include="InversionOfControl\IoC.cs" />
+    <Compile Include="InversionOfControl\LifeStyleComponentRegistration.cs" />
+    <Compile Include="InversionOfControl\PluginAttribute.cs" />
+    <Compile Include="Lifecycle\ConversationHelper.cs" />
+    <Compile Include="Lifecycle\IConversation.cs" />
+    <Compile Include="Lifecycle\IReleaseTask.cs" />
+    <Compile Include="Lifecycle\ISetupTask.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Querying\IQueryFilter.cs" />
+    <Compile Include="Querying\IQueryProcessor.cs" />
+    <Compile Include="Querying\IQueryProcessorFactory.cs" />
+    <Compile Include="Querying\Query.cs" />
+    <Compile Include="Querying\QueryEngineArguments.cs" />
+    <Compile Include="Querying\QueryExecutor.cs" />
+    <Compile Include="Querying\QueryOrder.cs" />
+    <Compile Include="Querying\QueryPagedResult.cs" />
+    <Compile Include="Querying\QueryPaging.cs" />
+    <Compile Include="Querying\QueryResult.cs" />
+    <Compile Include="Querying\QueryValueResult.cs" />
+    <Compile Include="WorkUnit\UnitOfWorkManager.cs" />
+    <Compile Include="WorkUnit\UnitOfWorkException.cs" />
+    <Compile Include="WorkUnit\UnitOfWorkScope.cs" />
+    <Compile Include="WorkUnit\UnitOfWorkScopeType.cs" />
+    <Compile Include="Validation\CustomAttribute\EnumTypeCompatibleAttribute.cs" />
+    <Compile Include="Validation\CustomAttribute\GuidRequiredAttribute.cs" />
+    <Compile Include="Validation\CustomAttribute\SQLDateValidAttribute.cs" />
+    <Compile Include="Validation\ValidationConsequence.cs" />
+    <Compile Include="Validation\ValidationEngine.cs" />
+    <Compile Include="Validation\ValidationArgumentException.cs" />
+    <Compile Include="Validation\ValidationEventListener.cs" />
+    <Compile Include="WorkUnit\UnitOfWorkState.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Litium.Common.Entities\Litium.Common.Entities.csproj">
+      <Project>{FCF5A0E9-150C-4354-A58B-15068F190FB1}</Project>
+      <Name>Litium.Common.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Litium.Resources\Litium.Resources.csproj">
+      <Project>{35643519-667C-4E15-B7E4-212108FCA3A7}</Project>
+      <Name>Litium.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- <Import Project="$(SolutionDir)\.nuget\nuget.targets" /> -->
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

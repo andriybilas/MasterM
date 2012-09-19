@@ -1,0 +1,69 @@
+﻿@using Litium.Resources
+@model Site.Infrastuctures.ModelHelpers.Campaign.PersonalCampaignModel
+
+<div id="campaign-partial-view">
+    
+    @Html.Hidden("confirm-succeed", WebStroreResource.Succesfull)
+    <fieldset class="product-edit-arrea">
+        <legend>@WebStroreResource.PersonalCampaignHeader</legend>
+        <div style="width: 305px;">
+            <div>@Html.LabelFor(x => x.SummaryBought)</div>
+            @Html.TextBoxFor(x => x.SummaryBought)
+            @Html.ValidationMessageFor(x => x.SummaryBought)
+        </div>
+        <div style="width: 305px;">
+            <div>@Html.LabelFor(x => x.Percent)</div>
+            @Html.TextBoxFor(x => x.Percent)
+            @Html.ValidationMessageFor(x => x.Percent)
+        </div>
+        <div style="width: 305px;">
+            <div>@Html.LabelFor(x => x.ExpirationPeriod)</div>
+            @Html.TextBoxFor(x => x.ExpirationPeriod)
+            @Html.ValidationMessageFor(x => x.ExpirationPeriod)
+        </div>
+        <strong><a href="#" onclick="javascript:SubmitChanges (); return false; " class="t-button t-button-icon"
+                   style="margin-top: 5px;"><span class="t-icon t-update" ></span></a></strong>
+    </fieldset>
+</div>
+
+<script type="text/javascript" language="javascript">
+
+    $( document ).ready( function () { UpdateCampaignData( ); } );
+
+        function UpdateCampaignData( )
+        {
+            PostAjaxRequest( "json", "/Campaign/GetCampainTypeData", null, UpdateCampaingView );
+        }
+
+        function UpdateCampaingView( data )
+        {
+            if ( data != null )
+            {
+                $( "input=[name='SummaryBought']" ).val( data.SummaryBought );
+                $( "input=[name='Percent']" ).val( data.Percent );
+                $( "input=[name='ExpirationPeriod']" ).val( data.ExpirationPeriod );
+            }
+        }
+
+        function SubmitChanges()
+        {
+            var summaryBought = $( "input=[name='SummaryBought']" ).val();
+            var percent = $( "input=[name='Percent']" ).val();
+            var expirationPeriod = $( "input=[name='ExpirationPeriod']" ).val();
+            var details = new PersonalCampaignModel( summaryBought, percent, expirationPeriod );
+            PostAjaxRequest( "json", "/Campaign/SubmitPersonalCampaignChanges", JSON.stringify( { campaignDetails: details } ), SubmitSuccessfull );
+        }
+
+    function SubmitSuccessfull()
+    {
+        alert( $( "input[name='confirm-succeed']" ).val() );
+    }
+
+    var PersonalCampaignModel = function( summaryBought, percent, expirationPeriod )
+    {
+        this.SummaryBought = summaryBought;
+        this.Percent = percent;
+        this.ExpirationPeriod = expirationPeriod;
+    };
+
+</script>

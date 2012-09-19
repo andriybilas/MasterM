@@ -1,0 +1,23 @@
+﻿@using Litium.Resources
+@model Litium.Domain.Entities.ECommerce.DeliveryMethod
+
+@Html.HiddenFor(x => x.Id)
+<fieldset class="web-fieldset">
+    <legend>@WebStroreResource.CreateEditDelivery</legend>
+    <div class="grid_3">
+        <strong>@Html.LabelFor(x => x.Name)</strong>
+        @Html.TextBoxFor(x => x.Name, new {style = "width:100%;"})
+        <div style="max-width: 250px;">@Html.ValidationMessageFor(x => x.Name)</div>
+    </div>
+    <div class="clear"></div>
+    <div class="grid_3">
+        <div><strong>@Html.LabelFor(x => x.Cost)</strong></div>
+        @Html.EditorFor(x => x.Cost, "Currency")
+        @Html.ValidationMessageFor(x => x.Cost)
+    </div>
+    <div class="clear"></div>
+    <div class="grid_3">
+        <strong>@Html.LabelFor(x => x.Description)</strong>
+        @Html.TextAreaFor(x => x.Description, new { style = "width:100%;" })
+    </div>
+</fieldset>

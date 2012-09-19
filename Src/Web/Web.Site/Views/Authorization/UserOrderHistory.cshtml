@@ -1,0 +1,42 @@
+﻿@using Litium.Resources
+@model IEnumerable<Litium.Domain.Entities.ECommerce.Order>
+
+@{ Layout = "~/Views/Shared/_PublicMain.cshtml"; }
+
+    <div>@Html.ValidationSummary(true)</div>
+<fieldset class="web-fieldset">
+    <legend>@WebStroreResource.UserHistory</legend>
+    @if (Model != null && Model.Any())
+    {
+        foreach (var order in Model)
+        {
+            <a href="#" onclick="javascript:ShowOrderDetails(this, '@order.Id'); return false;">
+                <div class="grid_1">@Html.DisplayFor(x => order.CreateDate)</div>
+                <div class="grid_2">@Html.DisplayTextFor(x => order.OrderState)</div>
+                <div class="grid_2">@Html.DisplayFor(x => order.OrderSumma)</div>
+                <div class="clear"></div>
+                <div class="grid_5" name="content-replacement"></div>
+            </a>
+        }
+    }
+        
+</fieldset>
+<a href="/Authorization/UserProfile"><strong>@WebStroreResource.GoBack</strong></a>
+
+<script type="text/javascript"  language="javascript">
+
+    var contentReplacement;
+
+    function ShowOrderDetails (anchor, orderId)
+    {
+        $( anchor ).click( null );
+        contentReplacement = $( anchor ).find( "div[name='content-replacement']" );
+        PostAjaxRequest( "html", "/Authorization/GetOrderDetails", JSON.stringify( { orderId : orderId } ), LoadOrderDetailsContent );
+    }
+    
+    function LoadOrderDetailsContent ( data )
+    {
+        contentReplacement.replaceWith( data );
+    }
+
+</script>

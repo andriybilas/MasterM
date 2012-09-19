@@ -1,0 +1,51 @@
+﻿
+@model Site.Infrastuctures.ModelHelpers.Product.ProductModel
+		   
+<div name="product-details" class="product" >
+	@Html.HiddenFor(x => x.Id)
+	@{
+		if (Model.HasImage)
+		{
+		<div class="image">
+			<img src="@Model.ImageUrl" alt="@(Model.Name)" />
+		</div>
+		}
+	}
+	<div class="text">
+        <div>@Html.DisplayTextFor(x => x.Name)</div>
+        <div>@Html.DisplayTextFor(x => x.ProductProperty.Brend)</div>
+        <div>@Html.DisplayTextFor(x => x.ProductProperty.Capacity)</div>
+	</div>
+	@{
+		if (Model.IsInCampaign)
+		{
+		<div class="campaign">
+			<div class="oldprice">
+				@Html.DisplayFor(x => x.Price)
+			</div>
+			<div class="price">
+				@Html.DisplayFor(x => x.CampaignPrice)
+			</div>
+		</div>
+		}
+		else
+		{
+		<div class="price">
+			@Html.DisplayFor(x => x.Price)
+		</div>
+		}
+	}
+	<div >
+		@Html.Partial("PublicSite/Controls/PlusMinusControl", Model)
+	</div>
+</div>
+<script type="text/javascript" language="javascript">
+
+	$( document ).ready( ShowProduct );
+
+	function ShowProduct()
+	{
+		$( "div[name='product-details']" ).fadeIn( "slow" );
+	}
+
+</script>

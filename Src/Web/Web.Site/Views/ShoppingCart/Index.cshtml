@@ -1,0 +1,81 @@
+﻿@using Litium.Resources
+@using Site.Infrastuctures.ModelHelpers.Order
+@using Site.Infrastuctures.Security
+@model OrderModel
+@{ Layout = "~/Views/Shared/_PublicMain.cshtml"; }
+
+<div id="shopping-cart-view">
+    
+    <div class="field-validation-error">@Html.ValidationSummary(false)</div>
+    @if (Model.OrderRows != null && Model.OrderRows.Count > 0)
+    {
+		<div class="grid_4 alpha p">
+			<label for="CreateDate" class="bold">@WebStroreResource.Order</label>
+			<div class="floatright bold">@Html.DisplayFor(x => x.CreateDate)</div>
+			<div class="clear"></div>
+			<label class="p bold">@Html.LabelFor(x => x.OrderNumber)</label>
+			<div class="floatright bold">@Html.DisplayTextFor(x => x.OrderNumber)</div>
+		</div>
+		<div class="clear"></div>
+			if (Model.DeliveryAddress != null)
+			{
+			<div class="p grid_7 alpha">
+				<div>
+					<h4 class="grid_2 alpha">@Html.LabelFor(x => x.DeliveryAddress.Address1)</h4>
+					<div class="clear"></div>
+					<a href="/Authorization/UserProfile" class="bold middle">@WebStroreResource.ChangeDeliveryAddress</a>
+				</div>
+				<div class="clear">
+				</div>
+				<div>@Html.DisplayTextFor(x => x.Customer.DisplayName)</div>
+				<div>@Html.DisplayTextFor(x => x.Customer.PhoneMobile)</div>
+				<div>@Html.DisplayTextFor(x => x.DeliveryAddress.Address1)</div>
+				<div>@Html.DisplayTextFor(x => x.DeliveryAddress.City)</div>
+			</div>
+			<div class="clear">
+			</div>
+			<div class="p grid_4">
+				<h4>@WebStroreResource.OrderDescription</h4>
+				<div>@Html.TextAreaFor(x => x.DeliveryDescription)</div>
+			</div>
+			<div class="clear">
+			</div>
+			}
+
+			<div class="p grid_4">
+				@Html.Partial("PublicSite/OrderDelivery", CartHelper.Source.GetDeliveries())
+			</div>
+			<div class="clear">
+			</div>
+			<div class="p grid_8">
+				@Html.Partial("PublicSite/ShoppingCartOrder", Model)
+			</div>
+			<div class="clear">
+			</div>
+			var user = WebStoreSecurity.GetLoggedInUser();
+			if (user != null && (user.Profile == null || user.DeliveryAddress == null))
+			{
+			<a href="/Authorization/UserProfile">@WebStroreResource.YouNeedToCompleteYourData</a>
+			}
+			else
+			{
+			<a href="/ShoppingCart/SubmitOrder" class="button">@WebStroreResource.ChoicePaymentMethod</a>
+			}
+
+			}
+			else
+			{
+			@WebStroreResource.YourShoppingCartIsEmpty
+			}
+		</div>
+<script language="javascript" type="text/javascript">
+
+	function SubmitOrder() {
+		PostAjaxRequest("html", "/ShoppingCart/SubmitOrder", null, OrderComplete);
+	}
+
+	function OrderComplete(data) {
+		$("#shopping-cart-view").replaceWith(data);
+	}
+
+</script>

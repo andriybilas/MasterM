@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<configSections>
+		<section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net"/>
+		<section name="dataCacheClient" type="Microsoft.ApplicationServer.Caching.DataCacheClientSection, Microsoft.ApplicationServer.Caching.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" allowLocation="true" allowDefinition="Everywhere"/>
+
+		<sectionGroup name="litium" type="Litium.Common.Configurations.LitiumSectionGroup, Litium.Common">
+			<section name="data" type="Litium.Common.Configurations.DataSection, Litium.Common"/>
+      <section name="globalization" type="Litium.Common.Configurations.GlobalizationSection, Litium.Common"/>
+		</sectionGroup>
+
+	</configSections>
+
+	<connectionStrings>
+		<add name="LitiumDB" connectionString="Server=(local);Initial Catalog=KiroTest;User Id=sa;Password=sa" providerName="System.Data.SqlClient" />
+	</connectionStrings>
+
+	<log4net>
+		<appender name="LogToFile" type="log4net.Appender.FileAppender">
+			<file value="../../Logs.log"/>
+			<appendToFile value="false"/>
+			<layout type="log4net.Layout.PatternLayout">
+				<conversionPattern value="%level || %date{dd/MM/yyyy HH:mm:ss} || %logger || %message || %exception%newline"/>
+			</layout>
+			<filter type="log4net.Filter.LevelRangeFilter">
+				<levelMin value="INFO" />
+				<levelMax value="FATAL" />
+			</filter>
+		</appender>
+		<root>
+			<appender-ref ref="LogToFile"/>
+		</root>
+	</log4net>
+
+	<dataCacheClient>
+		<hosts>
+			<host name="172.16.10.75" cachePort="22233"/>
+			<!--<host name="Studio01" cachePort="22233"/>
+			<host name="Studio02" cachePort="22233"/>-->
+			<!-- 
+			hostname 'localhost' will some times responde with IPV6 address ::1 and 
+			the cache host will not answer, instead use the IP directly -->
+			<!--<host name="127.0.0.1" cachePort="22233"/>-->
+		</hosts>
+		<securityProperties mode="None">
+		</securityProperties>
+	</dataCacheClient>
+
+	<litium>
+    <globalization defaultResourceFolder="Resources/" />
+    <data connectionName="LitiumDB"
+					useCache="true"
+					cacheName="Kiro"
+					cacheExpirationTimeout="600000"
+					cacheLockTimeout="30000"
+					debug="true"
+					filesStorage="c:\temp"
+					emptyDb="true"/>
+	</litium>
+
+</configuration>

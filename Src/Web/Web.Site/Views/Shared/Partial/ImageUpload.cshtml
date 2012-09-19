@@ -1,0 +1,121 @@
+﻿@using Litium.Resources
+<style type="text/css">
+	.td-edit-product-label     {width: 100px; margin: 3px; }
+	.td-edit-product-text .td-edit-product-label     { width: 250px; }
+	div.t-dropzone     {border: 1px solid #d2dfe6; }
+	div.t-dropzone em { visibility: visible; }
+	.product-edit-arrea     { border: solid 1px silver; border-radius: 5px; }
+	legend { padding-left: 15px; }
+	#product-image-placeholder { display: none; }
+	#product-image  { margin-top: 10px;  margin-right: 10px; margin-bottom: 10px; border: 1px solid darkgray;}
+</style>
+
+<script language="javascript" type="text/javascript">
+	
+	window.StringEmpty = "";
+	window.GuidEmpty = "00000000-0000-0000-0000-000000000000";
+	window.TrueStatus = "true";
+	window.IntervalTimeOut = 5;
+	
+	$( document ).ready( 
+		function ()
+		{
+			window.timeout_id = setInterval( CheckModelBindingStatus, 200 );
+		} );
+
+	function CheckModelBindingStatus()
+	{
+		if ( $( "input[name='Id']" ).val() != window.GuidEmpty )
+		{
+			clearInterval( window.timeout_id );
+			if ( $( "input[name='HasImage']" ).val().toLowerCase() == window.TrueStatus.toLowerCase() )
+				GetImageUrlAsync();
+		}
+
+		if ( window.IntervalTimeOut <= 0 )
+			clearInterval( window.timeout_id );
+
+		window.IntervalTimeOut -= 1;
+	}
+
+	function GetImageUrlAsync( )
+	{
+		$( ".t-upload-files.t-reset" ).css( "display", "none" );
+
+		$.ajax( {
+			contentType: 'application/json',
+			dataType: 'json',
+			type: 'post',
+			url: "/Shared/GetEntityImage",
+			traditional: true,
+			data: JSON.stringify( { entityId: $( "input[name='Id']" ).val(), entityType: $( "input[name='entity-type']" ).val() } ),
+			success: ViewImage,
+			error: ExceptionHandler
+		} );
+	}
+
+	function ViewImage( url )
+	{
+		if ( url != window.StringEmpty )
+		{
+			$( "#product-image" ).prop( "src", url );
+			$( "#product-image-placeholder" ).css( "display", "block" );
+			$( "p.note" ).css( "display", "none" );
+		}
+	}
+
+	function ImageOnBeforeUpload( evt )
+	{
+	    var entityGuid = $( "input[name='Id']" ).val( );
+
+	    if ( entityGuid == "" || entityGuid == window.GuidEmpty )
+	    {
+	        alert( '@WebStroreResource.EnityGuidEmptyException' );
+	        evt.preventDefault();
+	        return false;
+	    }
+	    
+	    $.each( evt.files, function ()
+	    {
+	        if ( this.extension != ".jpg" && this.extension != ".png" && this.extension != ".jpeg" && this.extension != ".gif" )
+	        {
+	            alert( '@WebStroreResource.OnlyImagesIsAllovedToUpload' );
+	            evt.preventDefault();
+	            return false;
+	        }
+	    } );
+
+	    evt.data = { entityId: $( "input[name='Id']" ).val(), entityType: $( "input[name='entity-type']" ).val() };
+	}
+
+	function ImageSelected()
+	{
+		$( "#product-image-placeholder" ).css( "display", "none" );
+    }
+	
+    function UploadImageException (data)
+    {
+        if ( typeof ( data.XMLHttpRequest.responseText ) != "undefined" )
+            alert( data.XMLHttpRequest.responseText );
+        e.preventDefault();
+    }
+
+</script>
+
+@Html.ValidationSummary(true)
+<div id="upload-image">
+	@(Html.Telerik ().Upload ().Name ("attachments")
+		.Async (asn => asn.AutoUpload (true).Save ("UploadImageAsync", "Shared"))
+		.ClientEvents (evt => {
+			evt.OnUpload ("ImageOnBeforeUpload");
+			evt.OnSuccess ("GetImageUrlAsync");
+            evt.OnError("UploadImageException");
+			evt.OnSelect ("ImageSelected");
+		}))
+	<p class="note">
+		Maximum allowed file size: 10 MB
+	</p>
+	<div id="product-image-placeholder" class="product-image-placeholder">
+		<img id="product-image" src="" style="max-width: 550px;"/>
+	</div>
+</div>

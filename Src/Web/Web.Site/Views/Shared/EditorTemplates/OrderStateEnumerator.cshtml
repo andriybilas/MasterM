@@ -1,0 +1,4 @@
+﻿@using Site.Infrastuctures.ModelHelpers.Order
+@model Litium.Domain.Entities.Shop.State
+
+@Html.DropDownList("OrderState", OrderHelper.Source.GetOrderStates(), new { style = "width:100%;" })

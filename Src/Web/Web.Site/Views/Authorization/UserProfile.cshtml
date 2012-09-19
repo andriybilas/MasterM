@@ -1,0 +1,55 @@
+﻿@using Litium.Resources
+@model Site.Infrastuctures.ModelHelpers.User.UserProfileModel
+@{Layout = "~/Views/Shared/_PublicMain.cshtml";}
+<h4>@WebStroreResource.PersonalProfile</h4>
+<div class="textaligncenter">@Html.ValidationSummary(true)</div>
+
+<div class="grid_3 alpha">
+	<div class="textalignright bold">
+		<a href="/Authorization/ChangePassword">@WebStroreResource.ChangePassword</a>
+	</div>
+	<div class="textalignright bold">
+		<a href="/Authorization/UserOrderHistory">@WebStroreResource.ViewOrderHistory</a>
+	</div>
+	@using (Html.BeginForm("UpdateUserProfile", "Authorization"))
+ {
+		@Html.HiddenFor(x => x.Id)
+		<fieldset class="form">
+			<div>@Html.LabelFor(x => x.FirstName)</div>
+			<div>@Html.TextBoxFor(x => x.FirstName)
+				<div>@Html.ValidationMessageFor(x => x.FirstName)</div>
+			</div>
+			<div>@Html.LabelFor(x => x.LastName)</div>
+			<div>@Html.TextBoxFor(x => x.LastName)
+				<div>@Html.ValidationMessageFor(m => m.LastName)</div>
+			</div>
+			<div>@Html.LabelFor(x => x.MiddleName)</div>
+			<div>@Html.TextBoxFor(x => x.MiddleName)</div>
+			<div>@Html.LabelFor(m => m.PhoneMobile)</div>
+			<div>@Html.TextBoxFor(m => m.PhoneMobile)
+				<div>@Html.ValidationMessageFor(m => m.PhoneMobile)</div>
+			</div>
+			<div>@Html.LabelFor(m => m.PhoneHome)</div>
+			<div>@Html.TextBoxFor(m => m.PhoneHome)
+				<div>@Html.ValidationMessageFor(m => m.PhoneHome)</div>
+			</div>
+			<div>@Html.LabelFor(m => m.Email)</div>
+			<div>@Html.TextBoxFor(m => m.Email)
+				<div>@Html.ValidationMessageFor(m => m.Email)</div>
+			</div>
+			<div>@Html.LabelFor(m => m.Address1)</div>
+			<div>@Html.TextBoxFor(m => m.Address1)
+				<div>@Html.ValidationMessageFor(m => m.Address1)</div>
+			</div>
+			<div>@Html.LabelFor(m => m.City)</div>
+			<div>@Html.TextBoxFor(m => m.City)
+				<div>@Html.ValidationMessageFor(m => m.City)</div>
+			</div>
+			<div class="textalignright">
+				<input type="submit" value="@WebStroreResource.Save" class="button" />
+			</div>
+		</fieldset>
+ }
+</div>
+<div class="clear">
+</div>

@@ -1,0 +1,62 @@
+﻿@using Litium.Domain.Entities.ECommerce
+@using Litium.Resources
+
+@{ Layout = "~/Views/Shared/_BackOfficeMain.cshtml"; }
+
+<h2>@StoreResourceStrings.Order</h2>
+
+@{ Html.Telerik().Grid<Order>()
+       .Name("OrdersGridView")
+	   .DataKeys(keys => keys.Add(c => c.Id).RouteKey("orderId"))
+       .EnableCustomBinding(true)
+       .DataBinding(dataBinding => dataBinding
+            .Ajax()
+            .Select("GetOrdersAsync", "Order")
+            .Update("UpdateOrderAsync", "Order")
+            .Delete("DeleteOrderAsync", "Order"))
+    .Columns(columns =>
+    {
+        columns.Command(commands =>
+        {
+            commands.Edit().ButtonType(GridButtonType.Image).HtmlAttributes(new { style = "float:left;" });
+            commands.Delete().ButtonType(GridButtonType.Image);
+        })
+        .HtmlAttributes(new { style = "width:65px;" });
+        columns.Bound(c => c.Customer.LoginName);
+        columns.Bound(c => c.OrderNumber);
+        columns.Bound(c => c.CreateDate).Format("{0:dd.MM.yyyy}").HtmlAttributes(new { style = "text-align:center;" });
+        columns.Bound(c => c.DeliveryMethod.Name).ClientTemplate("<#= DeliveryMethod !=null ? DeliveryMethod.Name : 'значення відсутнє' #>").HtmlAttributes(new { style = "text-align:center !important; width:50px;" });
+        columns.Bound(c => c.PaymentMethod.Name).ClientTemplate("<#= PaymentMethod !=null ? PaymentMethod.Name : 'значення відсутнє' #>").HtmlAttributes(new { style = "text-align:center;width:90px;" });
+        columns.Bound(c => c.OrderState).ClientTemplate("<#= state[OrderState] #>").HtmlAttributes(new { style = "text-align:center; width:50px;" });
+        columns.Bound(x => x.OrderSumma);
+    })
+    .Editable(editing => editing.Mode(GridEditMode.InForm).TemplateName("EditOrder"))
+    .DetailView(view => view.ClientTemplate(
+        "<fieldset>" +
+             "<legend>" + StoreResourceStrings.OrderDetails + "</legend>" +
+             Html.Telerik().Grid<OrderProduct>().Name("details_<#= Id #>")
+                                .DataBinding(dataBinding => dataBinding.Ajax().Select("GetRorderDetailsAsync", "Order", new { orderId = "<#= Id #>" }))
+                                .Columns(col =>
+                                             {
+                                                 col.Bound(x => x.Id).Hidden();
+                                                 col.Bound(c => c.ProductName);
+                                                 col.Bound(c => c.Count);
+                                                 col.Bound(c => c.Price);
+                                                 col.Bound(c => c.CampaignPrice);
+                                                 col.Bound(c => c.Summa);
+                                             }).Pageable().ToHtmlString() +
+         "</fieldset>"
+        ))
+    .Pageable(pagerAction =>
+                  {
+                      pagerAction.PageSize(20);
+                      pagerAction.Total(100);
+                  })
+    .Sortable()
+    .Filterable()
+    .Render();
+}
+
+<script language="javascript" type="text/javascript">
+    var state = ["@WebStroreResource.Canceled", "@WebStroreResource.Created", "@WebStroreResource.Paid", "@WebStroreResource.Delivered"]
+</script>

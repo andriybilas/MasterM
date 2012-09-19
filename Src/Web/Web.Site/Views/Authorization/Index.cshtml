@@ -1,0 +1,13 @@
+﻿@using Site.Infrastuctures.Security.Model
+@{ Layout = "~/Views/Shared/_PublicMain.cshtml"; }
+
+	<div class="field-validation-error">@Html.ValidationSummary()</div>
+	<div class="grid_3 alpha">
+		@Html.Partial("RegistrationStep1", new SimpleRegistartionUserModel())
+	</div>
+	<div class="grid_3">
+		@Html.Partial("Login", new LogOnModel ())
+	</div>
+
+
+

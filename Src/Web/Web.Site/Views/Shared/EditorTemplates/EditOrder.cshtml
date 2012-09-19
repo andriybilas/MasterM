@@ -1,0 +1,103 @@
+﻿@using Litium.Resources
+@model Litium.Domain.Entities.ECommerce.Order
+
+
+@Html.HiddenFor(x => x.Id)
+@Html.HiddenFor(x => x.OrderState)
+
+@if (Model.PaymentMethod != null)
+{
+	@Html.HiddenFor(x => x.PaymentMethod.Id)	
+}
+
+@if (Model.DeliveryMethod != null)
+{
+	@Html.HiddenFor(x => x.DeliveryMethod.Id)	
+}
+
+<fieldset class="product-edit-arrea" style="max-width: 285px;">
+    <legend>@WebStroreResource.ChangeOrderOption</legend>
+    <div class="grid_3">
+        <strong>@Html.LabelFor(x => x.OrderState)</strong>
+        @Html.EditorFor(x => x.OrderState, new { orderId = Model.Id })
+    </div>
+    <div class="grid_3">
+        <strong>@Html.LabelFor(x => x.DeliveryMethod)</strong>
+        @Html.EditorFor(x => x.DeliveryMethod, new { orderId = Model.Id })
+    </div> 
+    <div class="grid_3">
+        <strong>@Html.LabelFor(x => x.PaymentMethod)</strong>
+        @Html.EditorFor(x => x.PaymentMethod, new { orderId = Model.Id })
+    </div>
+</fieldset>
+
+<script language="javascript" type="text/javascript">
+ $( document ).ready( 
+        function ()
+        {
+            window.timeout_id = setInterval( CheckModelBindingStatus, 100 );
+        } );
+
+    function CheckModelBindingStatus()
+    {
+        if ( $( "input[name='Id']" ).val() != window.GuidEmpty )
+        {
+            clearInterval( window.timeout_id );
+            UpdateSelectors();
+        }
+
+        if ( window.IntervalTimeOut <= 0 )
+        {
+            UpdateSelectors();
+            clearInterval( window.timeout_id );
+        }
+        window.IntervalTimeOut -= 1;
+    }
+
+    function UpdateSelectors(  )
+    {
+        $( "a.t-button.t-grid-update.t-button-icon" ).click( UpdateOrderAsync );
+        var stateSelected = $( "input[name='OrderState']" ).val( );
+        $( "#OrderState_OrderState [value='" + stateSelected + "']" ).attr( "selected", "selected" );
+
+        var payment = $( "#PaymentMethod_Id" ).val();
+        $( "#PaymentMethod_PaymentMethotDropDownList [value='" + payment + "']" ).attr( "selected", "selected" );
+
+        var delivery = $( "#DeliveryMethod_Id" ).val();
+        $( "#DeliveryMethod_DeliveryMethotDropDownList [value='" + delivery + "']" ).attr( "selected", "selected" );
+    }
+
+    function UpdateOrderAsync(  )
+    {
+        var orderState = $( "#OrderState_OrderState :selected" ).val();
+        var paymentMethod = $( "#PaymentMethod_PaymentMethotDropDownList :selected" ).val();
+        var deliveryMethod = $( "#DeliveryMethod_DeliveryMethotDropDownList :selected" ).val();
+        var order = $( "input[name='Id']" ).val( );
+
+        PostAjaxRequest( "json", "/Order/UpdateOrderAsync", JSON.stringify( { orderId: order, orderState: orderState, 
+            paymentMethodId: paymentMethod, deliveryMethodId: deliveryMethod  } ), UpdateOrderGrid );
+    }
+
+    function UpdateOrderGrid( )
+    {
+	    if ( $( "#OrdersGridView" ).length != 0 )
+			$( "#OrdersGridView" ).data( "tGrid" ).rebind();
+    }
+
+    function PostAjaxRequest( responceType, actionUrl, jsonData, successDelegate )
+    {
+        $.ajax( {
+            contentType: "application/json; charset=utf-8",
+            dataType: responceType,
+            type: "post",
+            url: actionUrl,
+            traditional: true,
+            data: jsonData,
+            processData: false,
+            //ifModified: true,
+            success: successDelegate,
+            error: ExceptionHandler
+        } );
+    }
+
+</script>

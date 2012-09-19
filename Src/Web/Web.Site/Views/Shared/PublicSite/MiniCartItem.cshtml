@@ -1,0 +1,19 @@
+﻿@using Litium.Resources
+@model Site.Infrastuctures.ModelHelpers.Order.CartModel
+
+<div class="cartitem">
+<a href="#" onclick="javascript:DeleteCartItem('@Model.ProductId'); return false;" class="removebutton"><strong>x</strong></a>
+
+	@Html.HiddenFor(x => x.ProductId)
+	<div class="p">
+		@Html.DisplayFor(x => x.ProductName)
+	</div>
+	<div class="price">
+		@Html.DisplayFor(x => x.Count) <strong>x</strong>
+		@Html.DisplayFor(x => x.Price) <strong>@WebStroreResource.Currency</strong>
+	</div>
+	<div class="price">
+		@Html.DisplayFor(x => x.Summa) <strong>@WebStroreResource.Currency</strong>
+	</div>
+</div>
+

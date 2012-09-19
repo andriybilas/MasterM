@@ -1,0 +1,110 @@
+﻿@model Site.Infrastuctures.ModelHelpers.User.UserModel
+
+
+@Html.HiddenFor(x => x.Id)
+@Html.HiddenFor(x => x.DisplayName)
+@Html.HiddenFor(x => x.LoginName)
+
+<fieldset class="product-edit-arrea" style="max-width: 285px;">
+    <div style="padding-bottom: 10px;">
+        @Html.CheckBoxFor(x => x.Active, new { style = "display:inline-block;" })
+        <strong>@Html.LabelFor(x => x.Active)</strong>
+    </div>
+    <div>
+        <strong>@Html.LabelFor(x => x.PhoneMobile)</strong>
+        @Html.TextBoxFor(x => x.PhoneMobile, new { style = "width:100%;" })
+        @Html.ValidationMessageFor(x => x.PhoneMobile)
+    </div>
+    <div>
+        <strong>@Html.LabelFor(x => x.FirstName)</strong>
+        @Html.TextBoxFor(x => x.FirstName, new { style = "width:100%;" })
+        @Html.ValidationMessageFor(x => x.FirstName)
+    </div>
+    <div>
+        <strong>@Html.LabelFor(x => x.LastName)</strong>
+        @Html.TextBoxFor(x => x.LastName, new { style = "width:100%;" })
+        @Html.ValidationMessageFor(x => x.LastName)
+    </div>
+    <div>
+        <strong>@Html.LabelFor(x => x.MiddleName)</strong>
+        @Html.TextBoxFor(x => x.MiddleName, new { style = "width:100%;" })
+    </div>
+    <div>
+        <strong>@Html.LabelFor(x => x.Address1)</strong>
+        @Html.TextBoxFor(x => x.Address1, new { style = "width:100%;" })
+        @Html.ValidationMessageFor(x => x.Address1)
+    </div>
+    <div>
+        <strong>@Html.LabelFor(x => x.City)</strong>
+        @Html.TextBoxFor(x => x.City, new { style = "width:100%;" })
+        @Html.ValidationMessageFor(x => x.City)
+    </div>
+    <div>
+        <strong>@Html.LabelFor(x => x.Email)</strong>
+        @Html.TextBoxFor(x => x.Email, new { style = "width:100%;" })
+        @Html.ValidationMessageFor(x => x.Email)
+    </div>
+    <div>
+        <strong>@Html.LabelFor(x => x.PhoneHome)</strong>
+        @Html.TextBoxFor(x => x.PhoneHome, new { style = "width:100%;" })
+    </div>
+    <div id="credentials">
+        <div>
+            <strong>@Html.LabelFor(x => x.Password)</strong>
+            @Html.PasswordFor(x => x.Password, new { style = "width:100%;" })
+            @Html.ValidationMessageFor(x => x.Password)
+        </div>
+        <div>
+            <strong>@Html.LabelFor(x => x.ConfirmPassword)</strong>
+            @Html.PasswordFor(x => x.ConfirmPassword, new { style = "width:100%;" })
+            @Html.ValidationMessageFor(x => x.ConfirmPassword)
+        </div>        
+    </div>
+</fieldset>
+
+<script type='text/javascript' language='javascript'>
+    $( '.type-submit' ).click( function () { if ( confirm( "text" ) ) { $( this ).closest( 'form' ).submit(); } return false; } );
+
+    $( document ).ready( 
+		function ()
+		{
+		    window.timeout_id = setInterval( CheckModelBindingStatus, 200 );
+		} );
+
+    function CheckModelBindingStatus()
+    {
+        if ( $( "input[name='Id']" ).val() != window.GuidEmpty )
+        {
+            clearInterval( window.timeout_id );
+            CheckPersonId();
+        }
+
+        if ( window.IntervalTimeOut <= 0 )
+        {
+            CheckPersonId( );
+            clearInterval( window.timeout_id );
+        }
+            
+
+        window.IntervalTimeOut -= 1;
+    }
+
+    function CheckPersonId(  )
+    {
+        if ( $( "input[name='Id']" ).val() != window.GuidEmpty )
+        {
+            var settings = $( 'form' ).validate().settings;
+            delete settings.rules.Password;
+            delete settings.rules.ConfirmPassword;
+            $( "#credentials" ).css( "display", "none" );
+            $( "input[name='Password']" ).val( "***" );
+            $( "input[name='ConfirmPassword']" ).val( "***" );
+        }
+        else
+        {
+            $( "#credentials" ).css( "display", "block" );
+        }
+
+    }
+
+</script>

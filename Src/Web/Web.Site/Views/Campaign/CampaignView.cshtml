@@ -1,0 +1,140 @@
+﻿@using Litium.Resources
+@using Litium.Domain.Entities.ProductCatalog;
+@model IEnumerable<Campaign>
+
+@{ Layout = "~/Views/Shared/_BackOfficeMain.cshtml"; }
+
+@Html.Hidden("delete-campaign-confirm", StoreResourceStrings.DeleteCampaignConfirm)
+@Html.Hidden("selectedCampaignId", Guid.Empty)
+
+<h2>@StoreResourceStrings.CampaignHeader</h2>
+
+<div class="grid_6 alpha">
+	
+    <div id="WindowPlaceHolder" style="margin-left: auto; margin-right: auto"></div>
+	
+    <strong style="display: block;">
+        @Ajax.ActionLink(StoreResourceStrings.CreateNewCampaign, "LoadCreateCampaignView", "Campaign", null, new AjaxOptions {
+	   HttpMethod = "Post", UpdateTargetId = "load-campaigns", InsertionMode = InsertionMode.Replace, OnFailure = "ExceptionHandler" })
+    </strong>
+
+    <div style="display: none;" id="edit-link">	
+        <strong>
+            <a href="#" id="delete-product-set">@StoreResourceStrings.DeleteCampaign</a>
+        </strong>
+    </div>
+
+    <fieldset class="web-fieldset">
+        <legend>@StoreResourceStrings.CurrentCampaign</legend>
+		
+        <div class="product-sets">
+            @Html.Label(StoreResourceStrings.AllCampaign)
+            @Html.Hidden("campaignId", Guid.Empty.ToString(), new { id = Guid.Empty.ToString() })
+        </div>
+
+        @foreach (var campaign in Model)
+        {
+            <div class="product-sets">
+                @Html.Label(campaign.Name)
+                @Html.Hidden("campaignId", campaign.Id.ToString(), new { id = campaign.Id.ToString() })
+            </div>	
+        }
+
+    </fieldset>
+
+</div>
+
+<div class="grid_10 omega t-link">
+	<div id="load-campaigns">
+		@Html.Partial("CampaignPartial/ViewCampaigns")
+	</div>
+</div>
+
+<script type="text/javascript" language="javascript">
+
+	$( document ).ready( PageLoad );
+	window.top.GUID_EMPTY = "00000000-0000-0000-0000-000000000000";
+
+	function PageLoad()
+	{
+	    $( "div.product-sets" ).each( function ()
+	    {
+	        var productSetId = $( this ).children( "input" ).prop("id");
+	        $( this ).click( productSetId, ViewCampaignDetails );
+	    } );
+	    
+		$( "#delete-product-set" ).click( DeleteCampaign );
+    }
+
+    function ViewCampaignDetails( args )
+    {
+        if ( args.data != window.GuidEmpty )
+            $( "#edit-link" ).fadeIn( "slow" );
+        else
+            $( "#edit-link" ).fadeOut( "slow" );
+
+        UpdateButtonStyle( args.target );
+
+        if ( args.data == window.top.GUID_EMPTY )
+        {
+            PostAjaxRequest( "html", "/Campaign/ViewAllCampaignAsync", JSON.stringify( { campaignId: args.data } ), LoadCampaigns );
+        }
+        else
+        {
+            PostAjaxRequest( "html", "/Campaign/SetCampaignDetailsDataAsync", JSON.stringify( { campaignId: args.data } ), LoadCampaigns );
+        }
+    }
+
+    function LoadCampaigns( responce )
+    {
+        $( "#load-campaigns" ).replaceWith( responce );
+    }
+
+    function UpdateButtonStyle( elem )
+    {
+        $( "div.product-sets-clicked.product-sets" ).removeClass( "product-sets-clicked" );
+        if ( $( elem ).is( "label" ) )
+        {
+            $( elem ).parent().addClass( "product-sets-clicked" );
+        }
+        else
+        {
+            $( elem ).addClass( "product-sets-clicked" );
+        }
+    }
+
+	function DeleteCampaign()
+	{
+	    var campId = $( "div.product-sets-clicked.product-sets" ).children( "input" ).val();
+
+	    if ( campId == window.top.GUID_EMPTY )
+	        return;
+
+	    if ( confirm( $( "input=[name='delete-campaign-confirm']" ).val() ) )
+	    {
+			PostAjaxRequest("json", "/Campaign/DeleteCampaign", JSON.stringify( { campaignId: campId } ), RemoveNodeFromCampaign );
+		}
+	}
+
+	function RemoveNodeFromCampaign()
+	{
+	    $( "div.product-sets-clicked.product-sets" ).remove();
+	}
+
+	function PostAjaxRequest(responceType, actionUrl, jsonData, successDelegate )
+	{
+		$.ajax( {
+			contentType: "application/json; charset=utf-8",
+			dataType: responceType,
+			type: "post",
+			url: actionUrl,
+			traditional: true,
+			data: jsonData,
+			processData : false,
+			//ifModified: true,
+			success: successDelegate,
+			error: ExceptionHandler
+		} );
+	}
+
+</script>

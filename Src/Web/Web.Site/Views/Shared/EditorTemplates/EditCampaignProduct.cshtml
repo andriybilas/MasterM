@@ -1,0 +1,16 @@
+﻿@model Site.Infrastuctures.ModelHelpers.Campaign.PriceByProductCampaignItemModel
+
+<fieldset class="product-edit-arrea">
+    
+    @Html.HiddenFor(x => x.Id)
+    <div class="grid_3">
+        @Html.TextBoxFor(x => x.Name, new { @readonly = "readonly", style = "width:100px; border: solid 0px black;" })
+    </div>
+    <div class="grid_2">
+        @Html.EditorFor(x => x.Price, "CurrencyReadOnly")
+    </div>
+    <div class="grid_2">
+        @Html.EditorFor(x => x.CampaignPrice, "Currency")
+    </div>
+	
+</fieldset>

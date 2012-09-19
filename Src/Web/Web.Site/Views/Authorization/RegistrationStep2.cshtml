@@ -1,0 +1,55 @@
+﻿@{ Layout = "~/Views/Shared/_PublicMain.cshtml"; }
+
+@using Litium.Resources
+@model Site.Infrastuctures.Security.Model.CompleteRegistartionUserModel
+<div class="alpha">
+<div class="textaligncenter">
+    @Html.ValidationSummary()
+</div>
+@using (Html.BeginForm("RegistrationStep2", "Authorization"))
+{
+    @Html.HiddenFor(m => m.Id)
+    <fieldset class="form grid_3">
+        <h4>@WebStroreResource.PersonalUserData</h4>
+        <div>@Html.LabelFor(m => m.LoginName)</div>
+        <div class="bold">@Html.DisplayFor(m => m.LoginName)</div>
+        <div>@Html.LabelFor(m => m.Profile.FirstName)</div>
+        <div>@Html.TextBoxFor(m => m.Profile.FirstName)
+            <div>@Html.ValidationMessageFor(m => m.Profile.FirstName)</div>
+        </div>
+        <div>@Html.LabelFor(m => m.Profile.LastName)</div>
+        <div>@Html.TextBoxFor(m => m.Profile.LastName)
+            <div>@Html.ValidationMessageFor(m => m.Profile.LastName)</div>
+        </div>
+        <div>@Html.LabelFor(m => m.Profile.MiddleName)</div>
+        <div>@Html.PasswordFor(m => m.Profile.MiddleName)</div>
+        <div>@Html.LabelFor(m => m.Profile.PhoneMobile)</div>
+        <div>@Html.TextBoxFor(m => m.Profile.PhoneMobile)
+            <div>@Html.ValidationMessageFor(m => m.Profile.PhoneMobile)</div>
+        </div>
+        <div>@Html.LabelFor(m => m.Profile.Phone)</div>
+        <div>@Html.TextBoxFor(m => m.Profile.Phone)
+            <div>@Html.ValidationMessageFor(m => m.Profile.Phone)</div>
+        </div>
+        <div>@Html.LabelFor(m => m.Profile.Email)</div>
+        <div>@Html.TextBoxFor(m => m.Profile.Email)
+            <div>@Html.ValidationMessageFor(m => m.Profile.Email)</div>
+        </div>
+    </fieldset>
+    <fieldset class="form grid_3">
+        <h4>@WebStroreResource.PersonalUserAddress</h4>
+        <div>@Html.LabelFor(m => m.DeliveryAddress.Address1)</div>
+        <div>@Html.TextBoxFor(m => m.DeliveryAddress.Address1)
+            <div>@Html.ValidationMessageFor(m => m.DeliveryAddress.Address1)</div>
+        </div>
+        <div>@Html.LabelFor(m => m.DeliveryAddress.City)</div>
+        <div>@Html.TextBoxFor(m => m.DeliveryAddress.City)
+            <div>@Html.ValidationMessageFor(m => m.DeliveryAddress.City)</div>
+        </div>
+    </fieldset>
+	<div class="clear"></div>
+	 <div class="regbutton grid_6 alpha">
+          <input type="submit" value="@WebStroreResource.CompleteRegistration" class="button" />
+     </div>
+}
+</div>

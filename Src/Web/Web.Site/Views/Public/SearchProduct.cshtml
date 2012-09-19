@@ -1,0 +1,58 @@
+﻿@{ Layout = "~/Views/Shared/_PublicMain.cshtml"; }
+@using Litium.Resources
+@model Site.Infrastuctures.ModelHelpers.Product.ProductBagModel
+
+@if (Model.Products.Any())
+{
+    <div id="product-repeater" style="display: none;">
+        @Html.Partial("PublicSite/ProductRepeater", Model)
+    </div>
+    
+    <script type="text/javascript" language="javascript">
+        var _page = 1;
+        var _inCallback = false;
+        var _searchKeyWord = window.StringEmpty;
+        window.StringEmpty = "";
+
+        $( document ).ready( function ()
+        {
+            $( "#product-repeater" ).delay( 500 ).fadeIn( "slow" );
+            window.docHeight = $( document ).scrollTop();
+        } );
+
+        $( window ).scroll( function ()
+        {
+            if ( $( window ).scrollTop() == $( document ).height() - $( window ).height() )
+            {
+                LoadProducts();
+            }
+        } );
+
+        function LoadProducts()
+        {
+            if ( _page > -1 && !_inCallback )
+            {
+                _page++;
+                _inCallback = true;
+                $( "#product-loading " ).css( "display", "block" );
+                
+                PostAjaxRequest( "html", "/Public/AppendSearchProduct",
+                    JSON.stringify( { searchKeyword: $( "input[name='searchKeyword']" ).val(), page: _page } ), 
+                    AppendProducts );
+            }
+        }
+
+        function AppendProducts( data )
+        {
+            $( "#product-loading" ).css( "display", "none" );
+            $( "#products-view" ).append( data );
+            _inCallback = false;
+        }
+    </script>
+
+}
+else
+{
+    <strong>@WebStroreResource.SearchHasNoResult</strong>
+}
+

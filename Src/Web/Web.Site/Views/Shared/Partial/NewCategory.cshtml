@@ -1,0 +1,71 @@
+﻿@using System.Web.Mvc.Html
+@using System.Web.UI.WebControls
+@using Litium.Domain.Entities.ProductCatalog
+@using Litium.Resources
+@using Site.Infrastuctures.ModelHelpers
+@using Web.Site
+@model Category
+@section PartialStyles
+{
+	<style type="text/css">
+		.product-edit-arrea
+		{
+			border: solid 1px silver;
+			border-radius: 5px;
+			margin-top: 10px;
+			margin: 10px auto 10px auto;
+			padding: 5px 15px 5px 10px;
+		}
+	</style>
+}
+
+
+<script type="text/javascript" language="javascript">
+
+    $( window ).load( function () { setTimeout( function () { $( '#CategoryDropDown' ).data( "tDropDownList" ).rebind(); }, 500 ); } );
+
+    function CategoryListDataBound()
+    {
+        var combobox = $( '#CategoryDropDown' ).data( 'tDropDownList' );
+        var selectItem = function ( dataItem ) { return dataItem.Value == '@( (Model == null || Model.Parent == null) ? null : Model.Parent.Id.ToString() )'; };
+        combobox.fill( function () { combobox.select( selectItem ); } );
+    }
+
+</script>
+<div id="partial-replacement">
+    @{if (Model != null)
+      { 
+          <fieldset class="product-edit-arrea">
+              <legend>@WebStroreResource.SetImageForCategory</legend>
+              @Html.HiddenFor(x => x.HasImage)
+              @Html.Hidden("entity-type", EntityType.Category)
+              @Html.Partial("Partial/ImageUpload")
+          </fieldset>
+      }
+    }
+    @using (Ajax.BeginForm("CreateCategory", "Category", null, new AjaxOptions { OnSuccess = "RebindData" }))
+    {
+        @Html.HiddenFor(x => x.Id)
+        <fieldset class="product-edit-arrea">
+            <legend>@Html.DisplayTextFor(x => x.Name)</legend>
+            @{ Html.Validate("Category"); }
+            <div>
+                @Html.LabelFor(x => x.Name)
+                @Html.TextBoxFor(x => x.Name, new { style = "width:100%;" })
+                @Html.ValidationMessageFor(x => x.Name)
+            </div>
+            <div>
+                @Html.LabelFor(x => x.Parent)
+            </div>
+            @(Html.Telerik().DropDownList().Name("CategoryDropDown")
+           .DataBinding(bind => bind.Ajax().Select("GetCategories", "Shared", new { instanceName = "new-category" }))
+           .Effects(eff => eff.Slide()).ClientEvents(evt => evt.OnLoad("CategoryListDataBound"))
+           .HtmlAttributes(new { style = "width:100%; height:24px;" }))
+            <div>
+                @Html.LabelFor(x => x.Description)
+                @Html.TextAreaFor(x => x.Description, new { style = "width:100%;" })
+            </div>
+        </fieldset>
+        @Html.ActionLinkSubmit(StoreResourceStrings.Create, ButtonType.Image, null, new Dictionary<string, object> { { "style", "margin-top:5px;" } })
+    }
+</div>

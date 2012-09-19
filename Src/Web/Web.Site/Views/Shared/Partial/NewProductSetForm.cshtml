@@ -1,0 +1,35 @@
+﻿@using System.Web.Mvc.Html
+@using System.Web.UI.WebControls
+@using Litium.Domain.Entities.ProductCatalog
+@using Litium.Resources
+@using Web.Site
+@model ProductSet
+
+	   
+<style type="text/css">
+	.product-edit-arrea
+	{
+		border: solid 1px silver;
+		border-radius: 5px;
+		margin-top: 10px;
+		margin: 10px auto 10px auto;
+		padding: 5px 15px 5px 10px;
+	}
+</style>
+
+@using (Html.BeginForm ("CreateProductSet", "ProductSet"))
+{     
+    <fieldset class="product-edit-arrea">
+	<div>
+		@Html.LabelFor(x => x.Name)
+		@Html.TextBoxFor(x => x.Name, new { style = "width:100%;" })
+		@Html.ValidationMessageFor(x => x.Name)
+	</div>
+	<div>
+		@Html.LabelFor(x => x.Description)
+		@Html.TextAreaFor(x => x.Description, new { style = "width:100%;" })
+	</div>
+        @Html.ActionLinkSubmit(StoreResourceStrings.Create, ButtonType.Image, null, new Dictionary<string, object> { { "style", "margin-top:5px;" } })
+</fieldset>
+	
+}

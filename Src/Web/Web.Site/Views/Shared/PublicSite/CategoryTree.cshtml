@@ -1,0 +1,112 @@
+﻿@using Litium.Resources
+@model IEnumerable<Web.Site.Models.CategoryModel>
+		   
+<div class="leftmenu">
+	<div class="header">
+		<h2>
+		 @WebStroreResource.LeftMenuHeader
+		 </h2>
+	</div>
+	<div class="content">
+		@Html.Hidden("selected-category-id")
+		@(Html.Telerik().TreeView()
+            .Name("CategoryTreeView")
+            .BindTo(Model, (item, category) =>
+                            {
+                                item.Text = category.Name;
+                                item.Value = category.Id.ToString();
+                                item.LoadOnDemand = category.HasChild;
+                            })
+            .ShowCheckBox(false)
+           .DataBinding(bnd => bnd.Ajax().Select("TreeVeiwLoadAsync", "Category"))
+           .ClientEvents(events =>
+                             {
+                                 events.OnLoad("AssignEvents");
+                                 events.OnDataBound("AssignEvents");
+                                 events.OnError("ExceptionHandler");
+                                 events.OnExpand("ExpandCategoryTree");
+                                 events.OnSelect("TreeViewOnSelect");
+                             }))
+	</div>
+</div>
+<script type="text/javascript" language="javascript">
+
+    function TreeViewOnSelect( evt )
+    {
+        var treeview = $( '#CategoryTreeView' ).data( 'tTreeView' );
+        var catId = treeview.getItemValue( evt.item );
+        $( "input[name='selected-category-id']" ).val( catId );
+    }
+
+    function AssignEvents()
+    {
+        $( ".t-input" ).each( function ()
+        {
+            $( this ).removeClass( "t-input" );
+        } );
+
+        $( "span.t-in" ).each( function ()
+        {
+            $( this ).parent( 'ul div' ).addClass( "public-tree-view" );
+            $( this ).click( null );
+            $( this ).click( { args: $( this ).parent( 'ul div' ) }, OnClickCategoryTreeView );
+        } );
+    }
+
+    function OnClickCategoryTreeView( evt )
+    {
+        $( document ).scrollTop( window.docHeight );
+        _page = 1;
+        _brand = window.StringEmpty;
+
+        $( "#search-keyword" ).val( window.StringEmpty );
+
+        $( ".t-state-selected" ).each( function ()
+        {
+            $( this ).removeClass( "t-state-selected" );
+        } );
+
+        $( evt.data.args ).addClass( "t-state-selected" );
+        var catId = $( evt.data.args ).find( "input[name='itemValue']" ).val();
+        $( "input[name='selected-category-id']" ).val( catId );
+        $( "#product-loading " ).css( "display", "block" );
+        
+        $( "#products-view" ).fadeOut( "slow", function ()
+        {
+            PostAjaxRequest( "html", "/Public/LoadProductsByCategory", JSON.stringify( { categoryId: catId, page: _page } ),
+					UpdateProductsView );
+        } );
+    }
+
+    function ExpandCategoryTree( args )
+    {
+        //debugger;
+    }
+
+    function UpdateProductsView( data )
+    {
+        PostAjaxRequest( "html", "/Public/GetCategoryImage", JSON.stringify( { categoryId: $( "input[name='selected-category-id']" ).val() } ), UpdateImageCategory );
+        ReplaceProducts( data );
+    }
+
+    function ReplaceProducts( data )
+    {
+        $( "#products-view" ).replaceWith( data );
+        $( "#products-view" ).css( "display", "none" );
+    }
+
+    function UpdateImageCategory( url )
+    {
+        if ( $( "#brandsDropDown" ).length > 0 && _brand != window.StringEmpty )
+            $( "#brandsDropDown [value='" + _brand + "']" ).attr( "selected", "selected" );
+
+        if ( url != window.StringEmpty )
+        {
+            $( "#category-image" ).attr( "src", url );
+            $( "#category-image-zone" ).fadeIn( "slow" );
+        }
+        $( "#product-loading " ).css( "display", "none" );
+        $( "#products-view" ).delay( 500 ).fadeIn( "slow" );
+    }
+
+</script>

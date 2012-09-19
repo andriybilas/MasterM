@@ -1,0 +1,375 @@
+﻿/*---------------------------------------------------------
+						One colour elements
+---------------------------------------------------------*/
+.button { background-color: #4ea3d3;}
+a, a:visited, ul.topmenu li a, .t-widget.t-treeview.t-reset .t-state-selected, 
+.t-widget.t-treeview.t-reset ul.t-treeview-lines > li.t-item > div.public-tree-view span.t-in:hover,
+.t-widget.t-treeview.t-reset ul.t-treeview-lines > li.t-item > ul.t-group span.t-in:hover { color: #4ea3d3;}
+.t-widget { color: #4f4f4f;}
+/*---------------------------------------------------------
+						Main structure
+---------------------------------------------------------*/
+
+.none { display: none;}
+html { height: 100%;}
+body 
+{
+	background-image: url(/Content/public/images/main_background.jpg);
+	background-attachment: fixed;
+	overflow-y: scroll;
+}
+
+.baseline { vertical-align: baseline;}
+.middle { vertical-align: middle;}
+.bold{ font-weight: bold;}
+
+.textaligncenter { text-align: center;}
+.textalignright { text-align: right;}
+
+.floatleft { float: left;}
+.floatright { float: right;}
+
+.button {
+	color: #fff !important;
+	border: 0;
+	padding: 5px 10px;
+	margin-top: 0.5em;
+	font-size: 12px;
+}
+
+input[type='text'],
+input[type='password'], textarea { width: 100%;border: 1px solid #919191;}
+
+.form input.input-validation-error + div{ margin-bottom: 0.5em;}
+
+.form input{ margin-bottom: 0.5em;}
+.form input.input-validation-error { margin-bottom: 0px;}
+
+a, a:visited {
+	text-decoration: none;
+}
+
+#page { height: 100%;}
+
+.container_980
+{
+	width: 989px;
+	min-height: 100%;
+	background-image: url(/Content/public/images/top_background.png);
+	margin: 0px auto;
+}
+
+.toppart {
+	position: relative;
+	margin-bottom: 1em;
+}
+
+
+.toppart .marketing{margin-bottom: 3em;}
+.toppart .marketing div {
+	float: left;
+}
+
+.contentpage {
+	background-color: white;
+	min-height: 100%;
+}
+
+.logo
+{
+	margin-top: -10px;
+}
+
+.deliveryinfo {
+	margin-left: 8em;
+}
+
+.additionalinfo{position: absolute;right: -20px;}
+.additionalinfo > div, .additionalinfo > div:first-child
+{
+	min-height: 93px;
+}
+.additionalinfo > div {
+	float: left;
+	background-color: #b3bbca;
+	width: 10px;
+}
+.additionalinfo > div:first-child {
+	background-color: #eceef2;
+	 width: 230px;
+	
+}
+
+.additionalinfo > div:first-child > div {
+	padding: 1em;
+}
+
+.toppart .registration { padding-top: 8px;padding-bottom: 10px;}
+
+.toppart .registration > div {
+	float: right;
+}
+
+.topnavigation > div {
+	float: left;
+}
+
+
+.productcontent { margin-top: -14px;}
+
+/*---------------------------------------------------------
+						Top menu
+---------------------------------------------------------*/
+ul.topmenu {
+	
+}
+
+ul.topmenu li {
+	float: left;margin-right: 2em;
+}
+
+ul.topmenu li a{text-decoration: none;}
+
+/*---------------------------------------------------------
+						Top search
+---------------------------------------------------------*/
+div.topsearch {
+	border: 1px solid #919191;
+	position: relative;
+	height: 23px;
+	background-color: #fff;
+	padding-left: 0.5em;
+}
+
+div.topsearch input {
+	border: 0;float: left;padding-top: 4px;width: 90%;
+}
+
+div.topsearch img {
+	right: 0px;right: 0px;position: absolute;
+}
+
+/*---------------------------------------------------------
+						Left menu
+---------------------------------------------------------*/
+
+.t-widget.t-treeview.t-reset {
+	
+}
+
+.t-widget.t-treeview.t-reset .t-icon.t-minus {
+	width: 9px; 
+	height: 9px;
+	background-position: 0px 0px;
+	margin-top: 7px;
+	background-image: url(/Content/public/images/minus.png);
+}
+.t-widget.t-treeview.t-reset .t-icon.t-plus {
+	width: 9px;
+	height: 9px;
+	background-position: 0px 0px;
+	margin-top: 7px;
+	background-image: url(/Content/public/images/plus.png);
+}
+
+.t-widget.t-treeview.t-reset ul.t-treeview-lines > li.t-item > div.public-tree-view span.t-in  {
+	font-weight: bold;padding: 2px;cursor: pointer; white-space: pre-wrap !important;
+}
+
+.t-widget.t-treeview.t-reset ul.t-treeview-lines > li.t-item > div.public-tree-view span.t-in:hover {
+	background-color: transparent;border: 0;padding: 2px;
+}
+
+.t-widget.t-treeview.t-reset ul.t-treeview-lines > li.t-item > ul.t-group span.t-in {
+	font-weight: normal;padding: 2px;cursor: pointer;
+}
+
+.t-widget.t-treeview.t-reset ul.t-treeview-lines > li.t-item > ul.t-group span.t-in:hover {
+		background-color: transparent;border: 0;padding: 2px;
+}
+
+.t-widget.t-treeview.t-reset .public-tree-view.t-state-selected
+{
+	 border: 0;background-color: transparent;padding-top: 0px;padding-bottom: 0px;
+	
+}
+
+.t-widget.t-treeview.t-reset .t-state-selected {
+	 border: 0;background-color: transparent;cursor: default !important; 
+	font-weight: bold !important;padding-top: 0px;padding-bottom: 0px;
+}
+
+.leftmenu
+{
+	margin-top: 1em;
+}
+
+.leftmenu .header h2 {
+	font-weight: normal;text-align: center;margin-bottom: 0.7em;
+}
+.leftmenu .content {
+	border-top: 2px solid #4f4f4f;padding-top: 0.7em;
+}
+
+/*---------------------------------------------------------
+						Product
+---------------------------------------------------------*/
+.product .image {
+	height: 125px; width: 100px;border: 1px solid #969798;margin: 0px auto;
+}
+.product .text{ text-align: center;width: 100%;margin-top: 0.5em;}
+.product{display: none;margin-bottom: 2.8em;float: left;position: relative;height: 275px;width: 100%;}
+
+.product .price, .product .campaign .oldprice{ text-align: right;}
+.product .price{ font-size: 18px;}
+.product .campaign { position: absolute;bottom: 40px;right: 0px;}
+.product > .price { position: absolute;bottom: 27px;right: 0px;}
+.product .campaign .oldprice{font-size: 14px;text-decoration: line-through;}
+.plusminuscontrol .buybutton { float: right;}
+.plusminuscontrol .buybutton > a{ width: 35px;height: 21px;background-image: url(/Content/public/images/buy_button.png);display: block;}
+.plusminuscontrol { width: 100%;position: absolute;bottom: 0px;}
+.plusminuscontrol > div { float: left;}
+.plusminuscontrol > .plusminus > div, .plusminuscontrol > .plusminus > input { float: left;}
+.plusminuscontrol > .plusminus { margin-left: 0.5em;margin-top: 1px;}
+.productsview { margin-top: -14px;}
+#campaign-zone > .productsview { margin-top: 0px;}
+.productscontainer { margin-top: 2em;}
+.plusminuscontrol .a-plus-minus { font-size: 18px;margin-right: 0.3em;margin-left: 0.3em;cursor: pointer;}
+.plusminuscontrol input {border: 1px solid #919191;}
+
+/*--------------------------------------------------------------------------*/
+/* Це я додав пом переробиш з position: absolute хреново рендерить*/
+/*--------------------------------------------------------------------------*/
+
+
+.countcontrol { width: 100%; bottom: 0px;}
+.countcontrol > div { float: left;}
+.countcontrol > .plusminus > div, .countcontrol > .plusminus > input { float: left;}
+.countcontrol > .plusminus { margin-left: 0.5em;margin-top: 2px;}
+.countcontrol .a-plus-minus { font-size: 18px;margin-right: 0.3em;margin-left: 0.3em; cursor: pointer;}
+.countcontrol input {border: 1px solid #919191;}
+
+
+
+.field-validation-error
+{
+    background-position: 6px 6px;
+    background-image: url('/Content/images/error.png');
+    background-repeat: no-repeat;
+    color: #FF6600;
+    padding: 3px 0 0 22px;
+}
+
+.input-validation-error
+{
+    background: #FFF5D5;
+    border: 1px solid #F65718;
+}
+
+#product-loading 
+{
+	width:220px; 
+	position: fixed; 
+	bottom: 10px; 
+	z-index: 1000;
+	left:50%;
+	margin-left: -110px;
+	display: none;
+}
+
+#messenger
+{
+    position: fixed;
+    top: 50%;
+    z-index: 1000;
+    left: 50%;
+    margin-left: -110px;
+    border: 1px solid #4f4f4f;
+    padding: 5px 10px;
+    background-color: #E4F1FA;
+    
+    border-radius: 4px;
+    -moz-border-radius:4px; 
+    -webkit-border-radius:4px;
+    
+    box-shadow:5px 5px 10px #4f4f4f;
+    -webkit-box-shadow:5px 5px 10px #4f4f4f;
+    -moz-box-shadow: 5px 5px 10px #4f4f4f;
+}
+
+/*---------------------------------------------------------
+						Mini cart
+---------------------------------------------------------*/
+
+.minicart .orderbutton {
+	width: 140px;
+	height: 29px;
+	background-image: url(/Content/public/images/order_button.png);
+	color: #fff;
+	display: block;
+	text-decoration: none;
+	text-align: right;
+	position: relative;
+	
+}
+
+.minicart .orderbutton h4 {
+	position: absolute;
+	left: 60px;
+	top: 4px;
+}
+.minicart .gotocart {
+	text-align: center;
+}
+
+.minicart .title {
+	font-size: 18px;text-align: center;
+}
+
+.minicart { position: relative;top: -50px;}
+.minicart .toppart {
+	border-bottom: 2px solid #4f4f4f;
+	padding-bottom: 10px;
+	margin: 0px;
+}
+
+.minicart .bottompart { margin-top: 2px;}
+
+.minicart .cartitem { border-bottom: 2px solid #4f4f4f;padding-bottom: 5px;position: relative;font-weight: bold;padding-top: 3px;padding-bottom: 4px;}
+.minicart .cartitem .removebutton { position: absolute;right: 0px;}
+.minicart .cartitem .price{ text-align: right;}
+
+/*---------------------------------------------------------
+						Registration/Login
+---------------------------------------------------------*/
+
+.regbutton, .loginbutton { text-align: right;}
+
+/*---------------------------------------------------------
+						Order
+---------------------------------------------------------*/
+.orderinfo th { font-weight: bold;float: none;padding-bottom: 1em;}
+.orderinfo td {float: none;padding-bottom: 1em;}
+.orderinfo { width: 100%;}
+.orderinfo .campaignprice { }
+.orderinfo .oldprice { text-decoration: line-through;}
+
+/*---------------------------------------------------------
+						Brand filter
+---------------------------------------------------------*/
+.brandfilter 
+{
+    background-image:url(/Content/public/images/brand_filter_background.png);
+    position:absolute;
+    bottom:0px;
+    width:100%;
+    height:30px;
+}
+
+.brandfilter select {float:right; margin-right:1em;margin-top:5px;}
+.brandfilter div { float: left;margin-top: 4px;margin-left: 2em;}
+#category-image-zone {position:relative;}
+
+
+
+ 

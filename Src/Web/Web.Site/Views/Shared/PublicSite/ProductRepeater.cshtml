@@ -1,0 +1,42 @@
+﻿@using Site.Infrastuctures.ModelHelpers
+@using Site.Infrastuctures.ModelHelpers.Product
+@model ProductBagModel
+
+@{
+<div id="products-view" class="productsview">
+	<div id="category-image-zone" style="display: none;">
+		<img src="" id="category-image"/>
+		     @if (Model.TypeRequest == RequestType.Category)
+			 {
+				<div class="brandfilter">
+					<div>
+					<h1>@Model.Name</h1>
+					</div>
+						@Html.Action("FilterByBrandName", "Public", new RouteValueDictionary { { "categoryId", Model.Id } })
+				</div>
+			 }
+	</div>
+
+     @if (Model.Products.Any())
+     {
+		 var i = 0;
+
+      <div class="grid_8 alpha productscontainer">
+          @foreach (ProductModel product in Model.Products)
+		  {
+			  i++;
+		  	<div class="grid_2 @(i == 1 ? "alpha" : "")@(i == 4 ? "omega" : "")">
+				@Html.Partial("PublicSite/ProductControl", product)
+			</div>
+			  if (i == 4)
+			  {
+			  		<div class="clear"></div>
+				  i = 0;
+			  }
+		  }
+      </div>
+	 }
+  </div>
+}
+
+

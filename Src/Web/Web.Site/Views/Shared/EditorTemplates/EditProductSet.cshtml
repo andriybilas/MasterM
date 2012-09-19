@@ -1,0 +1,40 @@
+﻿@using Litium.Resources
+@using Site.Infrastuctures.ModelHelpers
+@using Web.Site
+
+@model Litium.Domain.Entities.ProductCatalog.ProductSet
+
+<div id="load-productset">
+    <h4>@WebStroreResource.UpdateProductSet</h4>
+    <fieldset class="product-edit-arrea">
+        <legend>@WebStroreResource.SetImageForCategory</legend>
+        @Html.Hidden("entity-type", EntityType.ProductSet)
+		@Html.HiddenFor( x=> x.HasImage)
+        @Html.Partial("Partial/ImageUpload")
+    </fieldset>
+
+    @using (Html.BeginForm("SaveUpdateProductSet", "ProductSet", new { productSetId = Model.Id }, FormMethod.Post))
+    {
+        Html.Validate("Campaign");
+        @Html.HiddenFor(x => x.Id)
+        <fieldset class="product-edit-arrea">
+            <legend>@Model.Name</legend>
+            <div class="grid_6">
+                <div>
+                    @Html.LabelFor(x => x.Name)
+                    @Html.TextBoxFor(x => x.Name, new { style = "width:100%" })
+                    @Html.ValidationMessageFor(x => x.Name)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.Description)
+                    @Html.TextAreaFor(x => x.Description, new { style = "width:100%" })
+                </div>
+            </div>
+        </fieldset>
+
+        <strong>
+            @Html.ActionLinkSubmit(WebStroreResource.Save, null, new Dictionary<string, object> { { "class", "t-button" } })
+        </strong>
+    }
+</div>
+

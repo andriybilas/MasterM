@@ -1,0 +1,49 @@
+﻿@using Litium.Resources
+@using Site.Infrastuctures.ModelHelpers.Campaign
+
+<div id="load-campaigns"></div>
+<div id="campaign-partial-view">
+
+            <fieldset class="product-edit-arrea">
+                <legend>@StoreResourceStrings.Products</legend>
+        
+                @{ Html.Telerik().Grid<PriceByProductCampaignItemModel>()
+                       .Name ("campaignProducts")
+                       .DataKeys (keys => keys.Add (c => c.Id).RouteKey ("productId"))
+                       .DataBinding (dataBinding => dataBinding.Ajax ()
+                                                        .Select ("GetCampaignProductsAsync", "Campaign")
+                                                        .Update("SavePriceByProductCampaign", "Campaign")
+                                                        .Delete ("DeleteCampaignProductsAsync", "Campaign"))
+                       .EnableCustomBinding(true)                                 
+                       .Columns (columns => {
+                                columns.Command(commands =>
+                                    {
+                                        commands.Edit().ButtonType(GridButtonType.Image);
+                                        commands.Delete().ButtonType(GridButtonType.Image);
+                                    }).HtmlAttributes(new { style = "width:65px;" });
+                                columns.Bound (c => c.Name);
+                                columns.Bound(c => c.Price);
+                                columns.Bound(c => c.CampaignPrice).EditorTemplateName("Currency");
+                       })
+                       .Editable(ed => ed.Mode(GridEditMode.InForm).TemplateName("EditCampaignProduct"))
+                       .Pageable (pagerAction => {pagerAction.PageSize (20);pagerAction.Total (10);})
+                       .ClientEvents(evt => 
+                                         {
+											 evt.OnError ("ExceptionHandler");
+                                         })
+                       .NoRecordsTemplate("There are no records to show")                  
+                       .Sortable ()
+                       .Filterable ()
+                       .Render ();}
+			
+                <div style="margin-top:10px;">
+                    @Ajax.ActionLink(StoreResourceStrings.AddProducts, "OpenProductCampaignWindow", "Campaign", null,
+                                new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "Post", UpdateTargetId = "WindowPlaceHolder" }, 
+                       new {@class = WebStroreResource.ButtonTypeImageStyle})
+                </div>
+            </fieldset>
+		
+
+</div>
+
+

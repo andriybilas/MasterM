@@ -1,0 +1,4 @@
+﻿@using Site.Infrastuctures.ModelHelpers.Order
+@model Litium.Domain.Entities.ECommerce.PaymentMethod
+
+@Html.DropDownList("PaymentMethotDropDownList", OrderHelper.Source.GetPaymentMethods(), new { style = "width:100%;" })

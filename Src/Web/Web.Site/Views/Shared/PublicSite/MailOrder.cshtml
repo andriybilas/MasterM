@@ -1,0 +1,129 @@
+﻿@using Litium.Resources
+@using Site.Infrastuctures.ModelHelpers.Order
+@model Site.Infrastuctures.ModelHelpers.Order.OrderModel
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head runat="server">
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+		<title></title>
+		<style type="text/css">
+			body  { background-attachment: fixed; font-size: 14px; font-family: "Segoe UI", Arial, Helvetica, sans-serif}
+			.floatleft { float: left;}
+			.floatright { float: right;}
+			.orderinfo th { font-weight: bold;float: none;padding-bottom: 1em;}
+			.orderinfo td {float: none;padding-bottom: 1em;}
+			.orderinfo { width: 100%;}
+			.orderinfo .campaignprice { }
+			.orderinfo .oldprice { text-decoration: line-through;}
+			.bold{ font-weight: bold;}
+			.p, p, ul, blockquote, pre, td, th, label {margin: 0; font-size: 1em; line-height: 1.5em; margin-bottom: 1.5em; }
+			.grid_2, .grid_3, .grid_4, .grid_6 {display: inline; float: left; margin-left: 10px; margin-right: 10px; }
+			.alpha {   margin-left: 0; }
+			.omega {   margin-right: 0; }
+			.container_12 .grid_2 { width: 140px; }
+			.container_12 .grid_3 { width: 220px; }
+			.container_12 .grid_4 { width: 300px; }
+			.container_12 .grid_6 { width: 460px; }
+			.clear {   clear: both; display: block; overflow: hidden; visibility: hidden; width: 0; height: 0; }
+		</style>
+	</head>
+<body class="container_12">
+	<div class="p grid_6 alpha">
+		<div>
+		<div class="grid_6 alpha p">
+			<label for="CreateDate" class="bold">@WebStroreResource.OrderFrom</label>
+			<div>@Html.DisplayFor(x => x.CreateDate)</div>
+			<div class="clear"></div>
+			<label class="p bold">@Html.LabelFor(x => x.OrderNumber)</label>
+			<div>@Html.DisplayTextFor(x => x.OrderNumber)</div>
+		</div>
+			<h4 class="grid_2 alpha">
+				@Html.LabelFor(x => x.DeliveryAddress.Address1)
+			</h4>
+			<div class="clear">
+			</div>
+		</div>
+		<div>@Html.DisplayTextFor(x => x.Customer.DisplayName)</div>
+		<div>@Html.DisplayTextFor(x => x.Customer.PhoneMobile)</div>
+		<div>@Html.DisplayTextFor(x => x.DeliveryAddress.Address1)</div>
+		<div>@Html.DisplayTextFor(x => x.DeliveryAddress.City)</div>
+	</div>
+	<div class="clear">
+	</div>
+	@if (!String.IsNullOrWhiteSpace(Model.DeliveryDescription))
+	{
+		<div class="p grid_4">
+			<h4>@WebStroreResource.OrderDescription1</h4>
+			<div>@Html.DisplayTextFor(x => x.DeliveryDescription)</div>
+		</div>
+		<div class="clear">
+		</div>		
+	}
+	<div class="p grid_6">
+		<div id="shopping-cart-items">
+			<fieldset>
+				<table class="orderinfo">
+					<tr>
+						<th class="grid_2 alpha">@WebStroreResource.ProductName
+						</th>
+						<th class="grid_2">@WebStroreResource.Count
+						</th>
+						<th>@WebStroreResource.Price
+						</th>
+						<th>@WebStroreResource.Summa
+						</th>
+					</tr>
+					@{ foreach (var orderItem in Model.OrderRows)
+					{
+						<tr>
+							<td class="grid_2 alpha">
+								@Html.DisplayTextFor(x => orderItem.ProductName)
+							</td>
+							<td class="grid_2" style="text-align: right;">
+								<div>
+									@Html.DisplayTextFor(x => orderItem.Count)
+								</div>
+							</td>
+							<td style="text-align: right;">
+								@if (orderItem.CampaignPrice > 0)
+								{
+									<div class="campaignprice">
+										@Html.DisplayFor(x => orderItem.CampaignPrice)
+									</div>
+								}
+								else
+								{
+									<div>
+										@Html.DisplayFor(x => orderItem.Price)<br />
+									</div>
+								}
+							</td>
+							<td style="text-align: right;">
+								@Html.DisplayFor(x => orderItem.Summa)
+							</td>
+						</tr>
+					} }
+				</table>
+			</fieldset>
+			<div class="grid_4 alpha">
+				<div>
+					<div class="grid_2">@Html.LabelFor(x => x.OrderSumma)</div>
+					<div class="floatright bold">@Html.DisplayFor(x => x.OrderSumma)</div>
+				</div>
+				<div>
+					<div class="grid_2">@Html.LabelFor(x => x.PersonalDiscount)</div>
+					<div class="floatright bold">@Html.DisplayFor(x => x.PersonalDiscount)</div>
+				</div>
+				<div>
+					<div class="grid_2">@Html.LabelFor(x => x.DeliveryPayment)</div>
+					<div class="floatright bold">@Html.DisplayFor(x => x.DeliveryPayment)</div>
+				</div>
+				<div>
+					<div class="grid_2">@Html.LabelFor(x => x.OrderTotal)</div>
+					<div class="floatright bold">@Html.DisplayFor(x => x.OrderTotal)</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

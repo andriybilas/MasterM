@@ -1,0 +1,69 @@
+﻿@using System.Web.UI.WebControls
+@using Litium.Resources
+@using Web.Site
+@model Litium.Domain.Entities.ProductCatalog.Campaign
+
+<h4>@StoreResourceStrings.CreateNewCampaign</h4>
+
+@using (Html.BeginForm("SaveUpdateCampaign", "Campaign", new { campaignId = Guid.Empty }, FormMethod.Post))
+{
+    Html.Validate("Campaign"); 
+    <fieldset class="product-edit-arrea">
+        <legend>@WebStroreResource.CampaignDescription</legend>
+        <div class="grid_6">
+            <div>
+                @Html.LabelFor(x => x.Name)
+                @Html.TextBoxFor(x => x.Name, new {style = "width:100%"})
+                @Html.ValidationMessageFor(x => x.Name)
+            </div>
+            <div>
+                @Html.LabelFor(x => x.Description)
+                @Html.TextAreaFor(x => x.Description, new { style = "width:100%" })
+            </div>
+            <div style="margin-top: 5px;">
+                <div class="grid_3 alpha">
+                    @Html.LabelFor(x => x.StartDate)
+                    @Html.EditorFor(x => x.StartDate, "Date")
+                    @Html.ValidationMessageFor(x => x.StartDate)
+                </div>
+                <div class="grid_3 omega">
+                    @Html.LabelFor(x => x.EndDate)
+                    @Html.EditorFor(x => x.EndDate, "Date")
+                    @Html.ValidationMessageFor(x => x.EndDate)
+                </div>
+            </div>
+            <div style="margin-top: 5px;">
+                @Html.LabelFor(x => x.Active)
+                @Html.CheckBoxFor(x => x.Active)
+            </div>
+        </div>
+    </fieldset>
+
+     <fieldset class="product-edit-arrea">
+         <legend>@StoreResourceStrings.CampaignTypes</legend>
+         <div style="width: 305px; float: left;">@(Html.Telerik().DropDownList().Name("campaignDropDown")
+           .DataBinding(bind => bind.Ajax().Select("GetCampaignsTypes", "Campaign"))
+           .Effects(eff => eff.Slide()).SelectedIndex(0)
+           .HtmlAttributes(new {style = "width:300px; height:26px;"}))</div>
+           
+           <a href="#" onclick="javascript:LoadCampaignTypeForm (); return false; " class="t-button">@StoreResourceStrings.Add</a>
+       
+     </fieldset>
+    <div id="campaign-partial-view"></div>
+    @Html.ActionLinkSubmit(WebStroreResource.SaveCampaign, null, new Dictionary<string, object> {{"class", "t-button"}})
+}
+    		
+<script type="text/javascript" language="javascript">
+	function LoadCampaignTypeForm(  )
+    {
+        var viewId = $( "#campaignDropDown" ).val();
+        PostAjaxRequest( "html", "/Campaign/LoadCampaignTypeView", JSON.stringify( { campaignViewId: viewId } ), UpdateView );
+	}
+
+	function UpdateView( responce )
+    {
+        $( "#campaign-partial-view" ).replaceWith( responce );
+    }
+
+
+</script> 

@@ -1,0 +1,68 @@
+﻿@using Litium.Resources
+@using Site.Infrastuctures.ModelHelpers
+@model Site.Infrastuctures.ModelHelpers.Product.ProductModel
+<fieldset class="product-edit-arrea">
+	<legend>Edit product</legend>
+	@Html.HiddenFor(x => x.Id)
+	@Html.HiddenFor(x => x.HasImage)
+    @Html.HiddenFor(x => x.Published)
+    @Html.ValidationSummary(true)
+	<div class="grid_3" style="float: left; height: 200px;">
+		@Html.Hidden("entity-type", EntityType.Product)
+		@Html.Partial("Partial/ImageUpload")
+	</div>
+	<div class="grid_5">
+		<div class="grid_3 editor-label">
+			@Html.LabelFor(x => x.Name)
+			@Html.TextBoxFor(x => x.Name, new { style = "margin-left:0px;" })
+			@Html.ValidationMessageFor(x => x.Name)
+		</div>
+		<div class="grid_3">
+			@Html.LabelFor(x => x.Price)
+			@Html.EditorFor(x => x.Price, "Currency")
+			@Html.ValidationMessageFor(x => x.Price)
+		</div>
+		<div class="grid_4">
+			@Html.LabelFor(x => x.StockBalance)
+			@Html.Telerik().IntegerTextBoxFor(x => x.StockBalance)
+			@Html.ValidationMessageFor(x => x.StockBalance)
+		</div>
+	</div>
+	<div class="grid_5" style="float: left;">
+		<div class="grid_4">
+            <div>@Html.LabelFor(x => x.ProductProperty.Brend)</div>
+			@Html.TextBoxFor(x => x.ProductProperty.Brend)
+		</div>
+		<div class="grid_4">
+            <div>@Html.LabelFor(x => x.ProductProperty.Country)</div>
+			@(Html.Telerik().ComboBoxFor(x => x.ProductProperty.Country)
+		.AutoFill(true).AssetKey("Id").DataBinding(x => x.Ajax().Select("GetCountriesAsync", "Product"))
+		.HtmlAttributes(new { style = "width:150px;" }))
+		</div>
+		<div class="grid_4">
+			<div>@Html.LabelFor(x => x.ProductProperty.Capacity)</div>
+			@Html.TextBoxFor(x => x.ProductProperty.Capacity)
+		</div>
+		<div class="grid_4">
+			<div>@Html.LabelFor(x => x.ProductProperty.Weight)</div>
+			@Html.TextBoxFor(x => x.ProductProperty.Weight)
+		</div>
+	</div>
+</fieldset>
+
+<script type="text/javascript" language="javascript">
+	$( document ).ready( PageLoad );
+
+	function PageLoad(parameters)
+	{
+		$( "a.t-button.t-grid-update.t-button-icon" ).each( function ()
+		{
+			$( this ).prop( "title", "@WebStroreResource.Update" );
+		} );
+
+		$( "a.t-button.t-grid-cancel.t-button-icon" ).each( function ()
+		{
+			$( this ).prop( "title", "@WebStroreResource.Cancel" );
+		} );
+	}
+</script>

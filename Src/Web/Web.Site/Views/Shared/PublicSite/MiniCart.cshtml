@@ -1,0 +1,25 @@
+﻿@using Litium.Resources
+@model Site.Infrastuctures.ModelHelpers.Order.OrderModel
+		   
+<div id="mini-cart" class="minicart">
+	<div class="title p">
+		@WebStroreResource.Basket
+	</div>
+	<div>
+		<div class="toppart">
+			<a href="/ShoppingCart/Index" class="orderbutton"><h4>@WebStroreResource.SetOrder</h4></a>
+		</div>
+	    @if (Model.OrderRows.Any())
+          {
+		        foreach(var miniCart in Model.OrderRows)
+		        {
+			        @Html.Partial("PublicSite/MiniCartItem", miniCart)
+                }
+                    <div class="title p order-summa">Сума</div>
+                    <div class="title p">@Html.DisplayFor(x => x.OrderSumma)</div>
+            }
+    </div>
+    <div class="bottompart">
+	<a href="/ShoppingCart/Index" class="gotocart"><h4>@WebStroreResource.GotoCart</h4></a>
+	</div>
+</div>

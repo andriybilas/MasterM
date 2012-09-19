@@ -1,0 +1,6 @@
+﻿
+
+@(Html.Telerik().DropDownList().Name("CategoryDropDown")
+    .DataBinding(bind => bind.Ajax().Select("GetCategories", "Shared", new { instanceName = ViewData["InstanceName"] }))
+    .Effects(eff => eff.Slide()).SelectedIndex(0)
+        .HtmlAttributes(new { style = ViewData["width"] }))

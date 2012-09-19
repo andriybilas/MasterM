@@ -1,0 +1,51 @@
+﻿@using Litium.Domain.Entities.ECommerce
+@using Litium.Resources
+@{ ViewBag.Title = "Delivery";  Layout = "~/Views/Shared/_BackOfficeMain.cshtml";}
+
+
+
+<h2>@WebStroreResource.DeliveryHeader</h2>
+
+<div class="grid_16 alpha">
+	
+    <fieldset class="product-edit-arrea">
+        <legend>@WebStroreResource.Deliveries</legend>
+        
+        @{ Html.Telerik().Grid<DeliveryMethod>()
+                .Name ("delivery")
+                .DataKeys (keys => keys.Add (c => c.Id).RouteKey ("deliveryId"))
+                .DataBinding (dataBinding => 
+                    dataBinding.Ajax ()
+                    .Select ("GetDeliveriesAsync", "Delivery")
+                    .Insert("InsertDeliveryAsync", "Delivery")
+                    .Update("UpdateDeliveryAsync", "Delivery")
+                    .Delete("DeleteDeliveryAsync", "Delivery"))
+                .EnableCustomBinding(true)                                 
+                .Columns (columns => {
+                        columns.Command(commands =>
+                        {
+                            commands.Edit().ButtonType(GridButtonType.Image);
+                            commands.Delete().ButtonType(GridButtonType.Image);
+                        }).Width(80);
+                        columns.Bound(c => c.Id).Hidden();
+                        columns.Bound (c => c.Name);
+                        columns.Bound(c => c.Cost).Format("{0:C}");
+                        columns.Bound(c => c.Description);
+                })
+                .ToolBar(commands => commands.Insert()
+                .ButtonType(GridButtonType.ImageAndText).ImageHtmlAttributes(new { style = "margin-left:0" }))
+                .Editable(editing => editing.Mode(GridEditMode.PopUp).TemplateName("EditDelivery")
+                    .Window(wnd => 
+                    { 
+                        wnd.Title(WebStroreResource.CreateEditDelivery);
+                        wnd.Width(300);
+                    }))
+                .Pageable (pagerAction => {pagerAction.PageSize (20);pagerAction.Total (10);})
+                .ClientEvents(evt => evt.OnError ("ExceptionHandler"))
+                .Sortable ()
+                .Filterable ()
+                .Render ();}
+			
+    </fieldset>
+
+</div>

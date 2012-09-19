@@ -1,0 +1,43 @@
+﻿@using Litium.Resources
+@model IEnumerable<Litium.Domain.Entities.ECommerce.DeliveryMethod>
+<fieldset>
+	<h4>@WebStroreResource.Deliveries</h4>
+	<div>
+		@foreach (var delivery in Model)
+  {
+			<div title="@delivery.Description">
+				<div class="grid_2 alpha">
+					<input type="radio" id="@delivery.Id" name="delivery" onclick="javascript:DeliveryOnChange(this); "/>
+					<label for="@delivery.Id">
+					@Html.DisplayTextFor(x => delivery.Name)
+					</label>
+				</div>
+				<label for="@delivery.Id">
+					<div class="floatright bold">
+						@Html.DisplayFor(x => delivery.Cost)
+					</div>
+				</label>
+			</div>
+			<div class="clear">
+			</div>
+  }
+	</div>
+</fieldset>
+<script type="text/javascript" language="javascript">
+
+	$(document).ready(
+        function () {
+        	$("input[name='delivery']:first").attr("checked", "checked");
+        	DeliveryOnChange($("input[name='delivery']:first"));
+        }
+    );
+
+	function DeliveryOnChange(elem) {
+		PostAjaxRequest("html", "/ShoppingCart/DeliveryMethodChanged", JSON.stringify({ deliveryId: $(elem).prop("id") }), DeliveryPostOnComplete);
+	}
+
+	function DeliveryPostOnComplete() {
+		PostAjaxRequest("html", "/ShoppingCart/UpdateShoppingCartOrderRows", null, RebuildShoopingCart);
+	}
+
+</script>

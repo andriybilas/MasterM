@@ -1,0 +1,22 @@
+﻿@using Litium.Resources
+@using Web.Site
+
+<fieldset class="web-fieldset">
+    <legend>@StoreResourceStrings.Search</legend>
+
+    @using (Ajax.BeginForm("FilterByProduct", "Shared", null, new AjaxOptions { OnSuccess = "ProductGridRebind" }))
+    {
+        <div style="float:left;">
+            <div>@Html.Label(StoreResourceStrings.ProductNameFilter)</div>
+            <div  style="float: left; padding-right: 10px;">@Html.TextBox("produtSearch")</div>
+        </div>
+        <div>
+            <div>@Html.Label(StoreResourceStrings.ProductCategoryFilter)</div>
+            @(Html.Telerik().DropDownList().Name("FilterCategory").DataBinding(bind => bind.Ajax()
+            .Select("GetCategories", "Shared", new { instanceName = "filter-productset" }))
+           .Effects(eff => eff.Slide()).HtmlAttributes(new { style = "width:200px; height:24px;" }))
+        </div>
+        <div><strong>@Html.ActionLinkSubmit(StoreResourceStrings.Search)</strong></div>
+    }
+
+</fieldset>

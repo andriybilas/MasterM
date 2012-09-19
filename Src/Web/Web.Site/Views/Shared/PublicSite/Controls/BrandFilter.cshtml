@@ -1,0 +1,18 @@
+﻿@model IEnumerable<SelectListItem>
+@Html.DropDownList("brandsDropDown", Model, new { style = "width:248px;", onchange = "javascript:BrandsOnChange(); return false;"})
+
+<script type="text/javascript" language="javascript">
+    function BrandsOnChange( )
+    {
+        _page = 1;
+        _brand = $( "#brandsDropDown :selected" ).val();
+
+        var catId = $( "input[name='selected-category-id']" ).val();
+
+        $( "#products-view" ).fadeOut( "slow", function ()
+        {
+            PostAjaxRequest( "html", "/Public/LoadProductsByBrand", JSON.stringify( { categoryId: catId, brand: _brand, page: _page } ),
+				UpdateProductsView );
+        } );
+    }
+</script>

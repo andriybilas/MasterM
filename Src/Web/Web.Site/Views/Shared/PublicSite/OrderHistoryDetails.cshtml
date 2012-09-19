@@ -1,0 +1,28 @@
+﻿@using Litium.Resources
+@model IEnumerable<Litium.Domain.Entities.ECommerce.OrderProduct>
+
+@if (Model != null && Model.Any())
+{
+    <ul class="grid_8">
+    @foreach (var product in Model)
+    {
+        <li>
+            <div class="grid_2">@Html.DisplayTextFor(x => product.ProductName)</div>
+            <div class="grid_1">@Html.DisplayTextFor(x => product.Count)</div>
+            @if (product.CampaignPrice != 0)
+            {
+                <div class="grid_2">@Html.DisplayFor(x => product.CampaignPrice)</div>
+            }
+            else
+            {
+                <div class="grid_2">@Html.DisplayFor(x => product.Price)</div>    
+            }
+            <div class="grid_2">@Html.DisplayFor(x => product.Summa)</div>
+        </li>
+    }
+    </ul>
+}
+else
+{
+    <div><strong>@WebStroreResource.DidYouBoughtSomethings</strong></div>
+}

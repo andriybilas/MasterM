@@ -1,0 +1,12 @@
+﻿@model Site.Infrastuctures.ModelHelpers.Order.CartModel
+
+<div class="countcontrol">
+	<div class="plusminus">
+		<div class="a-plus-minus" onclick="javascript:CountControlMinusClick('@Model.ProductId', '@Model.CampaignPrice', '@Model.Price', '@Model.ProductName');">
+			<strong>-</strong></div>
+        <input name="plus-minus-input-control" id="pl-@Model.ProductId" onkeydown="javascript:BlockNonNumbers(this, event, true, false, 3); " style="width:30px; text-align: right;"
+        value="@Model.Count"/>
+		<div class="a-plus-minus" onclick="javascript:CountControlPlusClick('@Model.ProductId', '@Model.CampaignPrice', '@Model.Price', '@Model.ProductName'); ">
+			<strong>+</strong></div>
+	</div>
+</div>

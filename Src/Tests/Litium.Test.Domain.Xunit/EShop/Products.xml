@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<ProductCollections>
+	<Product>
+		<Name>Косметический набор</Name>
+		<Article>КН435-3</Article>
+		<Description>
+			Оксана вы меня сразили
+			у вас столь музыкальный слух
+			вчера на камерном концерте
+			одна лишь вы храпели в такт
+		</Description>
+		<Price>12</Price>
+		<StockBalance>75</StockBalance>
+		<Category>Необходимое на каждый день</Category>
+		<ProductProperty>
+			<Brend>Avon</Brend>
+			<Capacity>0.2</Capacity>
+			<Country>Уругвай</Country>
+			<Weight>0</Weight>
+		</ProductProperty>
+	</Product>
+	<Product>
+		<Name>Крем для лица</Name>
+		<Article>КЛ234-78</Article>
+		<Description>
+			люблю людей люблю животных
+			люблю соседей и бомжей
+			люблю стирать и пылесосить
+			что за таблетки дай еще
+		</Description>
+		<Price>7.2</Price>
+		<StockBalance>370</StockBalance>
+		<Category>Необходимое на каждый день</Category>
+		<ProductProperty>
+			<Brend>Brend>Avon</Brend>
+			<Capacity>0</Capacity>
+			<Country>Зимбабве</Country>
+			<Weight>0.075</Weight>
+		</ProductProperty>
+	</Product>
+	<Product>
+		<Name>Пылесос</Name>
+		<Article>АФФ-65</Article>
+		<Description>
+			Выйти на yлицy с остpым железом,
+			Hе отвлекаясь на мелочи быта,
+			Подyмать о чем-то большом и полезном,
+			Что было когда-то, а нынче забыто.
+			Войти в чью-то двеpь, поздоpоваться тихо,
+			Поставить оpyжие в yгол y печки.
+			Пpедложенный чай, не обидев хозяев,
+			Отпить и подyмать: Хана, человечки.
+		</Description>
+		<Price>1800</Price>
+		<StockBalance>17</StockBalance>
+		<Category>Раз в неделю</Category>
+		<ProductPropertyProxy.Brend>ИТ</ProductPropertyProxy.Brend>
+		<ProductPropertyProxy.Capacity>0</ProductPropertyProxy.Capacity>
+		<ProductPropertyProxy.Country>Молдова</ProductPropertyProxy.Country>
+		<ProductPropertyProxy.Weight>6.5</ProductPropertyProxy.Weight>
+	</Product>
+	<Product>
+		<Name>Сумка женская</Name>
+		<Article>СЖ002-5</Article>
+		<Description>
+			Как извесно,бобры добры.
+			Добротою бобры полны.
+			Если хочешь себе добра,
+			надо просто позвть бобра.
+			Если ты без бобра добр,
+			значт сам ты в душе бобр
+		</Description>
+		<Price>24</Price>
+		<StockBalance>168</StockBalance>
+		<Category>Без неё - никак</Category>
+		<ProductPropertyProxy.Brend>D&amp;G</ProductPropertyProxy.Brend>
+		<ProductPropertyProxy.Capacity>0</ProductPropertyProxy.Capacity>
+		<ProductPropertyProxy.Country>Китай</ProductPropertyProxy.Country>
+		<ProductPropertyProxy.Weight>1.8</ProductPropertyProxy.Weight>
+	</Product>
+	<Product>
+		<Name>Телевизор</Name>
+		<Article>46К5-12</Article>
+		<Description>
+			онлайн во двор из дома выйду
+			в офтоп собачий наступлю
+			по роже получу дислайков
+			в больнице сделаю лог оф
+		</Description>
+		<Price>6000</Price>
+		<StockBalance>9</StockBalance>
+		<Category>Электроника</Category>
+		<ProductPropertyProxy.Brend>SONY</ProductPropertyProxy.Brend>
+		<ProductPropertyProxy.Capacity>0</ProductPropertyProxy.Capacity>
+		<ProductPropertyProxy.Country>Тайвань</ProductPropertyProxy.Country>
+		<ProductPropertyProxy.Weight>11.5</ProductPropertyProxy.Weight>
+	</Product>
+</ProductCollections>

@@ -1,0 +1,176 @@
+﻿@using Litium.Resources
+@model IEnumerable<Litium.Domain.Entities.ProductCatalog.ProductSet>
+
+<script src="@Url.Content("~/Scripts/jquery-ui.min.js")" type="text/javascript"></script>
+
+@{ Layout = "~/Views/Shared/_BackOfficeMain.cshtml"; }
+
+@Html.Hidden("delete-product-set-confirm", StoreResourceStrings.DeleteProductSetConfirm)
+@Html.Hidden("product-set-assign-complete", StoreResourceStrings.AssignProductSetComplete)
+
+<h2>@StoreResourceStrings.ProductSetHeader</h2>
+
+<div class="grid_5 alpha">
+	
+	<div id="WindowPlaceHolder" style="margin-left: auto; margin-right: auto"></div>
+	
+    <strong style="display: block;">
+        @Ajax.ActionLink(StoreResourceStrings.CreateNewProductSet, "OpenEditWindow", "ProductSet",
+                       new AjaxOptions
+                           {
+                               UpdateTargetId = "WindowPlaceHolder",
+                               InsertionMode = InsertionMode.Replace,
+                               OnFailure = "ExceptionHandler"
+                           })
+    </strong>
+
+    <div style="display: none;" id="edit-link">
+        <strong  style="display: block;" >
+            <a href="#" id="edit-product-set" onclick="javascrip:LoadEditProductSetForm(); return false;">@WebStroreResource.UpdateProductSet</a>
+        </strong>
+	    <strong style="display: block;" >
+		    <a href="#" id="delete-product-set">@StoreResourceStrings.DeleteProductSet</a>
+	    </strong>
+    </div>	
+
+    <fieldset class="web-fieldset">
+		<legend>@StoreResourceStrings.CurrentProductSets</legend>
+		
+		<div class="product-sets">
+			@Html.Label(@StoreResourceStrings.AllProducts)
+			@Html.Hidden("productSetId", Guid.Empty.ToString())
+		</div>
+
+		@foreach (var productSet in Model)
+  {
+			<div class="product-sets">
+				@Html.Label(productSet.Name)
+				@Html.Hidden("productSetId", productSet.Id.ToString())
+			</div>	
+  }
+
+	</fieldset>
+
+</div>
+<div class="grid_11 omega t-link">
+    <div id="load-productset">
+        @Html.Partial("Partial/ProductAssign")
+    </div>
+</div>
+
+<script type="text/javascript" language="javascript">
+
+    window.GuidEmpty = "00000000-0000-0000-0000-000000000000";
+    $( document ).ready( PageLoad );
+
+    function PageLoad()
+    {
+        $( "div.product-sets" ).each( function ()
+        {
+            var productSetId = $( this ).children( "input" ).val();
+            $( this ).click( productSetId, SetProductsSearchCriteria );
+        } );
+
+        $( "#delete-product-set" ).click( DeleteProductSet );
+        AssignDroppable();
+    }
+
+    function AssignDroppable()
+    {
+        $( 'div.product-sets' ).each( function ()
+        {
+            $( this ).droppable( {
+                tolerance: 'pointer',
+                drop: function ( event, ui )
+                {
+                    AssignProductToProductSetAsync( $( this ).children( "input" ).val() );
+                }
+            } );
+        } );
+    }
+
+    function AssignProductToProductSetAsync( productSet )
+    {
+        var products = new Array();
+
+        $( ".drag" ).children().children( "input" ).each( function ()
+        {
+            products.push( $( this ).prop( "id" ) );
+        } );
+
+        PostAjaxRequest("json", "/ProductSet/AssignProductsAsync", JSON.stringify( { productIds: products, productSetId: productSet } ), AssignProductComplete );
+    }
+
+    function AssignProductComplete( result )
+    {
+        if ( result == "true" )
+            alert( $( "input=[name='product-set-assign-complete']" ).val() );
+    }
+
+    function UpdateProductSetsButtonStyle( elem )
+    {
+        $( "div.product-sets-clicked.product-sets" ).removeClass( "product-sets-clicked" );
+        if ( $( elem ).is( "label" ) )
+        {
+            $( elem ).parent().addClass( "product-sets-clicked" );
+        }
+        else
+        {
+            $( elem ).addClass( "product-sets-clicked" );
+        }
+    }
+
+    function SetProductsSearchCriteria( args )
+    {
+        if ( args.data != window.GuidEmpty )
+            $( "#edit-link" ).fadeIn( "slow" ); 
+        else
+            $( "#edit-link" ).fadeOut( "slow" );
+
+
+        ShowLoader( );
+        UpdateProductSetsButtonStyle( args.target );
+        PostAjaxRequest("json", "/ProductSet/SetProductsSearchCriteriaAsync", JSON.stringify( { productSetId: args.data } ), ProductGridRebind );
+    }
+
+    function DeleteProductSet()
+    {
+        if ( confirm( $( "input=[name='delete-product-set-confirm']" ).val() ) )
+        {
+            var productSetId = $( "div.product-sets-clicked.product-sets" ).children( "input" ).val();
+            PostAjaxRequest( "json", "/ProductSet/DeleteProductSet", JSON.stringify( { productSetId: productSetId } ), RemoveNodeFromProductSet );
+        }
+    }
+
+    function RemoveNodeFromProductSet()
+    {
+        $( "div.product-sets.ui-droppable.product-sets-clicked" ).remove();
+    }
+
+    function LoadEditProductSetForm()
+    {
+        var id = $( "div.product-sets-clicked.product-sets > input" ).val();
+        if(id != "undefined")
+            PostAjaxRequest("html", "/ProductSet/LoadEditProductSetForm", JSON.stringify( { productSetId: id } ), UpdateProductSetForm );
+    }
+
+    function UpdateProductSetForm( data )
+    {
+        $( "#load-productset" ).replaceWith( data );
+    }
+
+    function PostAjaxRequest(responeType, sendUrl, jsonData, successDelegate )
+    {
+        $.ajax( {
+            contentType: 'application/json',
+            dataType: responeType,
+            type: 'post',
+            url: sendUrl,
+            traditional: true,
+            data: jsonData,
+            success: successDelegate,
+            error: ExceptionHandler
+        } );
+    }
+	
+</script>

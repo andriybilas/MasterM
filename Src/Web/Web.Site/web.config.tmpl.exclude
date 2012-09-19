@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  For more information on how to configure your ASP.NET application, please visit
+  http://go.microsoft.com/fwlink/?LinkId=152368
+  -->
+<configuration>
+  <configSections>
+    <sectionGroup name="telerik">
+      <section name="webAssets" type="Telerik.Web.Mvc.Configuration.WebAssetConfigurationSection, Telerik.Web.Mvc" requirePermission="false" />
+    </sectionGroup>
+    <sectionGroup name="litium" type="Litium.Common.Configurations.LitiumSectionGroup, Litium.Common">
+      <section name="cache" type="System.Web.Configuration.CacheSection, System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      <section name="data" type="Litium.Common.Configurations.DataSection, Litium.Common" />
+      <section name="globalization" type="Litium.Common.Configurations.GlobalizationSection, Litium.Common" />
+		<sectionGroup name="accountSettings" type="Litium.Common.Configurations.AccountSettingsConfig, Litium.Common">
+			<section name="systemUser" type="Litium.Common.Configurations.SystemUserConfig"/>
+		</sectionGroup>
+    </sectionGroup>
+    <section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net" />
+    <section name="dataCacheClient" type="Microsoft.ApplicationServer.Caching.DataCacheClientSection, Microsoft.ApplicationServer.Caching.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" allowLocation="true" allowDefinition="Everywhere" />
+  </configSections>
+  <connectionStrings>
+    <!--<add name="LitiumDB" connectionString="Server=ANDRIYB-PC01;Initial Catalog=WebStore;User Id=sa;Password=QazWsx1234" providerName="System.Data.SqlClient" />-->
+	<add name="LitiumDB" 
+		 connectionString="Server=mssql3.1gb.ua;Initial Catalog=1gb_WebStore;User Id=1gb_komora-lviv;Password=1a5cf710clzx" 
+		 providerName="System.Data.SqlClient" />
+    <!--<add name="LitiumDB" connectionString="Server=MASTER\SQLSERVER2008;Initial Catalog=WebStore;User Id=developer;Password=LCUser30SQL"
+			providerName="System.Data.SqlClient" />-->
+  </connectionStrings>
+	
+  <appSettings>
+    <add key="ClientValidationEnabled" value="true" />
+    <add key="UnobtrusiveJavaScriptEnabled" value="true" />
+    <add key="Telerik.Skin" value="Windows7" />
+	<add key="loginUrl" value="/Authorization/Index"/>  
+  </appSettings>
+	
+  <log4net>
+    <appender name="LogToFile" type="log4net.Appender.FileAppender">
+      <file value="../Logs.log" />
+      <appendToFile value="false" />
+      <layout type="log4net.Layout.PatternLayout">
+        <conversionPattern value="%level || %date{dd/MM/yyyy HH:mm:ss} || %logger || %message || %exception%newline" />
+      </layout>
+      <filter type="log4net.Filter.LevelRangeFilter">
+        <levelMin value="INFO" />
+        <levelMax value="FATAL" />
+      </filter>
+    </appender>
+    <root>
+      <appender-ref ref="LogToFile" />
+    </root>
+  </log4net>
+	
+  <dataCacheClient>
+    <hosts>
+      <host name="127.0.0.1" cachePort="22233" />
+      <!--<host name="Studio01" cachePort="22233"/>
+			<host name="Studio02" cachePort="22233"/>-->
+      <!-- 
+			hostname 'localhost' will some times responde with IPV6 address ::1 and 
+			the cache host will not answer, instead use the IP directly -->
+      <!--<host name="127.0.0.1" cachePort="22233"/>-->
+    </hosts>
+    <securityProperties mode="None"></securityProperties>
+  </dataCacheClient>
+	
+  <litium>
+    <data connectionName="LitiumDB" 
+		  useCache="false" cacheName="Kiro" 
+		  cacheExpirationTimeout="600000" cacheLockTimeout="30000" 
+		  debug="true" emptyDb="false" filesStorage="PublicFiles\ProductImages" />
+	  <accountSettings >
+		  <systemUser login="admin" password="Password" enabled="true" userId="E3CEB12E-4E8D-4CBE-8B70-B35921C7362D"/>
+	  </accountSettings>
+  </litium>
+
+	<system.web>
+
+		<globalization culture="uk-UA" uiCulture="uk-UA" />
+
+		<compilation debug="true" targetFramework="4.0">
+			<assemblies>
+				<add assembly="System.Web.Abstractions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" />
+				<add assembly="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" />
+				<add assembly="System.Web.Routing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" />
+				<add assembly="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" />
+				<add assembly="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" />
+			</assemblies>
+		</compilation>
+
+		<authentication mode="Forms">
+			<forms loginUrl="/Authorization/Index" timeout="30" slidingExpiration="true" />
+		</authentication>
+
+		<pages>
+			<namespaces>
+				<add namespace="System.Web.Helpers" />
+				<add namespace="System.Web.Mvc" />
+				<add namespace="System.Web.Mvc.Ajax" />
+				<add namespace="System.Web.Mvc.Html" />
+				<add namespace="System.Web.Routing" />
+				<add namespace="System.Web.WebPages" />
+				<add namespace="Telerik.Web.Mvc.UI" />
+				<add namespace="Site.Infrastuctures.ModelHelpers.Product" />
+				<add namespace="Litium.Domain.Entities.ProductCatalog" />
+				<add namespace="Litium.Resources" />
+			</namespaces>
+		</pages>
+
+		<httpHandlers>
+			<add verb="GET,HEAD" path="asset.axd" validate="false" type="Telerik.Web.Mvc.WebAssetHttpHandler, Telerik.Web.Mvc" />
+		</httpHandlers>
+
+	</system.web>
+
+	<system.net>
+		<mailSettings>
+			<smtp from="web@store.org" deliveryMethod="Network">
+				<network host="127.0.0.1" userName="litium\andriy.bilas" password="Popular" port="25"/>
+			</smtp>
+		</mailSettings>
+	</system.net>
+	
+  <system.webServer>
+    <validation validateIntegratedModeConfiguration="false" />
+    <modules runAllManagedModulesForAllRequests="true" />
+    <handlers>
+      <remove name="asset" />
+      <add name="asset" preCondition="integratedMode" verb="GET,HEAD" path="asset.axd" type="Telerik.Web.Mvc.WebAssetHttpHandler, Telerik.Web.Mvc" />
+    </handlers>
+  </system.webServer>
+	
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="System.Web.Mvc" publicKeyToken="31bf3856ad364e35" />
+        <bindingRedirect oldVersion="1.0.0.0-2.0.0.0" newVersion="3.0.0.0" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+	
+  <telerik>
+    <webAssets useTelerikContentDeliveryNetwork="true" />
+  </telerik>
+	
+</configuration>

@@ -1,0 +1,53 @@
+﻿<style type="text/css">
+	#product-image-placeholder { display: none; }
+	#product-image  { margin-top: 0px;  margin-right: 10px; margin-bottom: 0px; border: 1px solid darkgray;}
+</style>
+
+<script language="javascript" type="text/javascript">
+
+    window.IntervalTimeOut = 5;
+
+    $( document ).ready( 
+		function ()
+		{
+		    window.timeout_id = setInterval( CheckModelBindingStatus, 200 );
+		} );
+
+    function CheckModelBindingStatus()
+    {
+        if ( $( "input[name='Id']" ).val() != window.GuidEmpty )
+        {
+            clearInterval( window.timeout_id );
+            if ( $( "input[name='HasImage']" ).val().toLowerCase() == window.TrueStatus.toLowerCase() )
+                GetImageUrlAsync();
+        }
+
+        if ( window.IntervalTimeOut <= 0 )
+            clearInterval( window.timeout_id );
+
+        window.IntervalTimeOut -= 1;
+    }
+
+    function GetImageUrlAsync()
+    {
+        $.ajax( {
+            contentType: 'application/json',
+            dataType: 'json',
+            type: 'post',
+            url: "/Shared/GetEntityImage",
+            traditional: true,
+            data: JSON.stringify( { entityId: $( "input[name='Id']" ).val(), entityType: $( "input[name='entity-type']" ).val() } ),
+            success: ViewImage,
+            error: ExceptionHandler
+        } );
+    }
+
+    function ViewImage( url )
+    {
+        if ( url != window.StringEmpty )
+        {
+            $( "#public-image" ).prop( "src", url );
+            $( "#public-image-placeholder" ).fadeIn( "slow" );
+        }
+    }
+</script>

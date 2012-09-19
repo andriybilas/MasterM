@@ -1,0 +1,187 @@
+﻿@using Litium.Resources
+@using Site.Infrastuctures.ModelHelpers.Product
+
+@{
+	ViewBag.Title = StoreResourceStrings.Products;
+	Layout = "~/Views/Shared/_BackOfficeMain.cshtml";
+}
+@functions {
+	private static string PublishedCheckBoxTemplate()
+	{
+		return "<input type='checkbox' name='publish-checkbox' value='<#= Published #>' />";
+	}
+
+	private static string PublishedGroupCheckBoxTemplate()
+	{
+		return "<input type='checkbox' name='group-publish-checkbox' id='group-publish-checkbox-id'/>" +
+			   "<label for='group-publish-checkbox-id'>" + StoreResourceStrings.Published + "</label>";
+	}
+
+	private static string HasImageCheckBoxTemplate()
+	{
+		return "<input type='checkbox' name='has-image-check-box' value='<#= HasImage #>' disabled='disabled'/>";
+	}
+
+}
+@Html.Partial("Partial/QuickSearch")
+<h2>@StoreResourceStrings.Products</h2>
+@{ Html.Telerik().Grid<ProductModel>()
+	   .Name("ProductsGridView")
+	   .DataKeys(keys => keys.Add(c => c.Id).RouteKey("productId"))
+	   .DataBinding(dataBinding => dataBinding
+			.Ajax()
+			.Select("GetProductsAsync", "Product")
+			.Insert("InsertProductAsync", "Product")
+			.Update("UpdateProductAsync", "Product")
+			.Delete("DeleteProductAsync", "Product"))
+	.EnableCustomBinding(true)
+	.Columns(columns => {
+		columns.Command(commands => {
+			commands.Edit().ButtonType(GridButtonType.Image).HtmlAttributes(new { style = "float:left;" });
+			commands.Delete().ButtonType(GridButtonType.Image);
+		}).HtmlAttributes(new { style = "width:65px;" });
+		columns.Bound(c => c.Name);
+		columns.Bound(c => c.Price).Format("{0:c}").HtmlAttributes(new { style = "text-align:right;" });
+		columns.Bound(c => c.StockBalance).HtmlAttributes(new { style = "text-align:center !important; width:50px;" });
+		columns.Bound(c => c.Category).HtmlAttributes(new { style = "text-align:center; width:50px;" }).Filterable(false);
+        columns.Bound(c => c.CreateDate).HtmlAttributes(new { style = "text-align:center; width:50px;" });
+		columns.Bound(c => c.Published).ClientTemplate(PublishedCheckBoxTemplate()).Title(PublishedGroupCheckBoxTemplate()).Sortable(false).HtmlAttributes(new { style = "text-align:center;width:90px;" });
+		columns.Bound(x => x.HasImage).ClientTemplate(HasImageCheckBoxTemplate()).HtmlAttributes(new { style = "text-align:center;width:90px;" });
+	})
+	.ToolBar(commands => {
+		commands.Insert().ButtonType(GridButtonType.ImageAndText).ImageHtmlAttributes(new { style = "margin-left:0" });
+        commands.Custom().Name("PublishGridCommand").Text(WebStroreResource.Publish).ButtonType(GridButtonType.Text);
+	})
+	.Editable(editing => editing.Mode(GridEditMode.InForm).TemplateName("EditProduct"))
+	   .Pageable(pagerAction => {
+		   pagerAction.PageSize(20);
+		   pagerAction.Total(10);
+	   })
+	.ClientEvents(evt => {
+		evt.OnDataBound("UpdateCheckBoxStatus");
+		evt.OnRowDataBound("ProductsGridViewRowDataBound");
+		evt.OnDetailViewCollapse("UpdateCheckBoxStatus");
+		evt.OnError("ExceptionHandler");
+		evt.OnCommand("OnCommand");
+	    evt.OnComplete("OnComplete");
+	})
+	.Sortable()
+	.Filterable()
+	.Render();
+}
+
+<script type="text/javascript" language="javascript">
+	$( document ).ready( PageLoad );
+
+	function PageLoad()
+	{
+		$( 'input[name="group-publish-checkbox"]' ).click( function () { GridCheckBoxCheckedChenged(); } );
+		$( '.t-grid-PublishGridCommand' ).prop( "href", "#" );
+		$( '.t-grid-PublishGridCommand' ).click( function () { PublicshRequestAsync(); } );
+	}
+
+	function GridCheckBoxCheckedChenged()
+	{
+		if ( $( 'input[name="group-publish-checkbox"]' ).prop( "checked" ) == true )
+		{
+			$( "input[name='publish-checkbox']" ).each( function ()
+			{
+				$( this ).prop( "checked", true );
+			} );
+		}
+		else
+		{
+			$( "input[name='publish-checkbox']" ).each( function ()
+			{
+				$( this ).prop( "checked", false );
+			} );
+		}
+	}
+
+	function UpdateCheckBoxStatus()
+	{
+		$( "input[name='publish-checkbox']" ).each( function ()
+		{
+			if ( $( this ).val() == "true" )
+				$( this ).prop( "checked", true );
+		} );
+
+		$( "input[name='has-image-check-box']" ).each( function ()
+		{
+			if ( $( this ).val() == "true" )
+				$( this ).prop( "checked", true );
+		} );
+
+		$( 'input[name="group-publish-checkbox"]' ).prop( "checked", false );
+	}
+
+	function ProductsGridViewRowDataBound( evt )
+	{
+		$( evt.row ).find( "input[name='publish-checkbox']" ).prop( "id", evt.dataItem.Id );
+		SetTooltipsForButtons();
+	}
+
+	function OnCommand( evt )
+	{
+		if ( evt.name == "update" )
+			$("#loader").css("display", "block");
+		
+		setTimeout( UpdateCheckBoxStatus, 100 );
+	}
+
+	function PublicshRequestAsync()
+	{
+	    if ( !confirm( "@StoreResourceStrings.PublishConfirmation" ) )
+			return false;
+
+		var products = new Array();
+
+		$( "input[name='publish-checkbox']" ).each( function ()
+		{
+			products.push( new PublishedProduct( $( this ).prop( "id" ), $( this ).prop( "checked" ) ) );
+		} );
+
+		$.ajax( {
+			contentType: 'application/json',
+			dataType: 'json',
+			type: 'post',
+			url: "/Product/PublishProductsAsync",
+			traditional: true,
+			data: JSON.stringify( products ),
+			error: ExceptionHandler
+			//success: onRulesSaved,
+			//error: function (data, textStatus) { alert(textStatus); } 
+		} );
+	}
+
+	function PublishedProduct( id, published )
+	{
+		this.Id = id;
+		this.Published = published;
+	}
+
+	function ProductGridRebind()
+	{
+		if ( $( "#ProductsGridView" ).length != 0 )
+			$( "#ProductsGridView" ).data( "tGrid" ).ajaxRequest();
+	}
+	
+	function SetTooltipsForButtons ()
+	{
+		$("a.t-button.t-grid-edit.t-button-icon").each(function() {
+			$(this).prop("title", "@WebStroreResource.Edit");
+		} );
+		
+		$( "a.t-button.t-grid-delete.t-button-icon" ).each( function ()
+		{
+			$(this).prop("title", "@WebStroreResource.Delete");
+		});
+	}
+
+	function OnComplete ()
+	{
+		$( "#loader" ).css( "display", "none" );
+	}
+
+    
+</script>

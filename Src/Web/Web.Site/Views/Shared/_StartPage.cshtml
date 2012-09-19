@@ -1,0 +1,48 @@
+﻿@using Web.Site.Extensions
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    @(Html.Telerik ().StyleSheetRegistrar ().DefaultGroup (group => group.Add ("telerik.common.css").Add ("telerik.office2010blue.css").Combined (true).Compress (true)))
+
+    
+	@RenderSection("Styles", required: false)   
+	@RenderSection("PartialStyles", required: false)   	
+
+<script src="/Scripts/2012.1.214/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery-ui.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>	
+<script src="/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+
+</head>
+    <body>
+
+        <div id="page" >
+            @RenderBody()
+        </div>	
+        
+        @(Html.Telerik().ScriptRegistrar().DefaultGroup(group => group.Combined(true).Compress(true))
+           .jQuery(false).Globalization(true))
+    </body>
+</html> 
+
+
+@if (ViewBag.Message != null)
+{
+	<script language="javascript" type="text/javascript">
+		$( document ).ready( 
+			function ()
+			{
+				$( "#messenger" ).css( "display", "block" );
+				$( "#messenger" ).text( '@ViewBag.Message' );
+				setTimeout( HideMessage, 2000 );
+			}
+		);
+
+		function HideMessage()
+		{
+			$( "#messenger" ).fadeOut( "slow" );
+		}
+	</script>
+}

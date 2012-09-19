@@ -1,0 +1,38 @@
+﻿@using Litium.Resources
+@model Site.Infrastuctures.Security.Model.SimpleRegistartionUserModel
+@using (Html.BeginForm("RegistrationStep1", "Authorization"))
+{
+
+	<fieldset class="form">
+		<h4>@WebStroreResource.RegistrationForm</h4>
+		<div>
+			<div>
+				@Html.LabelFor(m => m.LoginName)</div>
+			<div>
+				@Html.TextBoxFor(m => m.LoginName)
+				<div>
+					@Html.ValidationMessageFor(m => m.LoginName)</div>
+			</div>
+			<div>
+				@Html.LabelFor(m => m.Password)
+			</div>
+			<div>
+				@Html.PasswordFor(m => m.Password)
+				<div>
+					@Html.ValidationMessageFor(m => m.Password)</div>
+			</div>
+			<div>
+				@Html.LabelFor(m => m.ConfirmPassword)
+			</div>
+			<div>
+				@Html.PasswordFor(m => m.ConfirmPassword)
+				<div>
+					@Html.ValidationMessageFor(m => m.ConfirmPassword)</div>
+			</div>
+		</div>
+		<div class="textalignright">
+			<input type="submit" value="@WebStroreResource.Registration" class="button" />
+		</div>
+	</fieldset>
+
+}

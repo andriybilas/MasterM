@@ -1,0 +1,4 @@
+﻿@using Site.Infrastuctures.ModelHelpers.Order
+@model Litium.Domain.Entities.ECommerce.DeliveryMethod
+
+@Html.DropDownList("DeliveryMethotDropDownList", OrderHelper.Source.GetDeliveryMethods(), new { style = "width:100%;" })

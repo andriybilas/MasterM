@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Litium.Domain.Entities.ECommerce.DeliveryMethod">
+    <Position X="1.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAgAAAAAAAAABQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ECommerce\DeliveryMethod.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Order" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Litium.Domain.Entities.ECommerce.Order">
+    <Position X="3.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEBAAABAAAAAAAAAAAEAAAAAAAAAAAAAAAhIAAAAAA=</HashCode>
+      <FileName>ECommerce\Order.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Litium.Domain.Entities.ECommerce.OrderProduct">
+    <Position X="3.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAECAAAAAQAAAAEAAAAAAAQAAAAAAAEAAAAAAAAIAAA=</HashCode>
+      <FileName>ECommerce\OrderProduct.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Order" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Litium.Domain.Entities.ECommerce.PaymentMethod">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAgAAAAAAAAABQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ECommerce\PaymentMethod.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Order" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="8.25" />
+</ClassDiagram>

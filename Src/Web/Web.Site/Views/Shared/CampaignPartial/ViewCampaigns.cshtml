@@ -1,0 +1,55 @@
+﻿@using Litium.Domain.Entities.ProductCatalog
+@using Litium.Resources
+
+@functions 
+{
+    private string IsActive()
+    {
+        return "<input type='checkbox' name='is-active-check-box' value='<#= Active #>' disabled='disabled'/>";
+    }
+}
+
+
+<div id="load-campaigns">
+
+            <fieldset class="product-edit-arrea">
+                <legend>@StoreResourceStrings.AllCampaign</legend>
+        
+                @{ Html.Telerik().Grid<Campaign>()
+                       .Name ("campaigns")
+                       .DataKeys (keys => keys.Add (c => c.Id).RouteKey ("campaignId"))
+                       .DataBinding (dataBinding => 
+                           dataBinding.Ajax ().Select ("GetCampaignsAsync", "Campaign"))
+                       .EnableCustomBinding(true)                                 
+                       .Columns (columns => {
+                                columns.Bound (c => c.Active).ClientTemplate(IsActive()).HtmlAttributes(new { style = "text-align:center;width:90px;" });
+                                columns.Bound (c => c.Name);
+                                columns.Bound(c => c.StartDate).Format("{0:dd/MM/yyyy}");
+                                columns.Bound(c => c.EndDate).Format("{0:dd/MM/yyyy}");
+                       })
+                       .Pageable (pagerAction => {pagerAction.PageSize (20);pagerAction.Total (10);})
+                       .ClientEvents(evt =>
+                                         {
+                                             evt.OnDataBound("OnGridDataBound");
+											 evt.OnError ("ExceptionHandler");
+                                         })
+                       .Sortable ()
+                       .Filterable ()
+                       .Render ();}
+			
+            </fieldset>
+</div>
+
+<script type="text/javascript" language="javascript">
+    
+    function OnGridDataBound( parameters )
+    {
+        $( "input[name='is-active-check-box']" ).each( function ()
+        {
+            if ( $( this ).val() == "true" )
+                $( this ).prop( "checked", true );
+        } );
+    }
+
+
+</script>

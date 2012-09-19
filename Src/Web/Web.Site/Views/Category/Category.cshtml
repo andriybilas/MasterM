@@ -1,0 +1,206 @@
+﻿@using System.Web.Mvc.Ajax
+@using Litium.Domain.Entities.ProductCatalog
+@using Litium.Resources
+@using Web.Site
+@model IEnumerable<Web.Site.Models.CategoryModel>
+
+@{  Layout = "~/Views/Shared/_BackOfficeMain.cshtml"; }
+
+
+<h2>@StoreResourceStrings.Category</h2>
+
+<div class="grid_4">
+	
+	@(Html.Telerik ().TreeView ()
+		    .Name("CategoryTreeView")
+		    .BindTo(Model, ( item, category ) => {
+		       	    item.Text = category.Name;
+		       	    item.Value = category.Id.ToString();
+		       	    item.LoadOnDemand = category.HasChild; })
+		    .ShowCheckBox(true)
+		    .DataBinding(bnd => bnd.Ajax ().Select ("TreeVeiwLoadAsync", "Category"))
+		    .DragAndDrop(dd => dd.Enabled (true))
+		    .ClientEvents(events => {
+		       	    events.OnNodeDropped("OnNodeDropped");
+				    events.OnLoad ("AssignEvents");
+					events.OnDataBound ("AssignEvents");
+		            events.OnError("ExceptionHandler");
+		            events.OnChecked("EnableEditingMode");
+            }))
+	 	
+    <div style="height: 25px;">
+        <strong>
+            @Ajax.ActionLink(StoreResourceStrings.CreateNewCategory, "SwitchView", "Category", new { option = "create-category", categoryId = String.Empty },
+                       new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "CreateCategoryDiv", OnFailure = "ExceptionHandler" })
+        </strong>
+    </div>
+    <div style="display: none;" id="edit-link">	
+	<div style="height: 25px;">
+        <strong>
+            <a href="#" onclick="javascript:EditCategoryClick (); return false; ">@StoreResourceStrings.EditCategory</a>
+        </strong>
+	</div>
+		<div style="height: 25px;">
+            <strong>
+                <a href="#" onclick="javascript:DeleteCategoryClick (); return false; " id="delete-category-link">@StoreResourceStrings.DeleteCategory</a>
+            </strong>
+		</div>
+        </div>
+
+</div>
+<div class="grid_11 t-link">
+    <div>@WebStroreResource.CategoryCreateNote</div>
+    <div id="CreateCategoryDiv">
+        @Html.Partial("Partial/ProductAssign")
+    </div>
+</div>
+
+@Html.Hidden("category-id");
+@Html.Hidden("delete-confirm", StoreResourceStrings.DeleteCategoryConfirm)
+
+<script type="text/javascript" language="javascript">
+    window.top.GUID_EMPTY = "00000000-0000-0000-0000-000000000000";
+
+    function EnableEditingMode (args)
+    {
+        var checked = $( args.item ).find( "input[type='checkbox']" ).is( ":checked" );
+        var nodeId = $( args.item ).find( "input[name='itemValue']" ).val();
+        $( "#category-id" ).val( nodeId );
+
+        if ( checked )
+        {
+            $( ":checked" ).removeProp( "checked" );
+            $( "#edit-link" ).fadeIn( "slow" );
+        }
+        else
+            $( "#edit-link" ).fadeOut( "slow" );        
+    }
+ 
+	function CategoryRebind()
+	{
+		$( '#CategoryTreeView' ).data( 'tTreeView' ).ajaxRequest();
+    }
+
+    function EditCategoryClick ()
+    {
+        var catId = $( "#category-id" ).val( );
+        RequestAsync( "/Category/SwitchView", JSON.stringify({ option: "edit-category", categoryId: catId }), LoadResponceForm );
+    }
+
+    function DeleteCategoryClick(  )
+    {
+        if ( !confirm( $( "#delete-confirm" ).val() ) )
+            return false;
+        
+        var catId = $( "#category-id" ).val();
+        RequestAsync( "/Category/DeleteCategories", JSON.stringify( { categoryId: catId } ), RebindData );
+    }
+
+    function LoadResponceForm( data )
+    {
+        HideLoader( );
+    	$( "#partial-replacement" ).replaceWith( data );
+    }
+
+	function OnNodeDropped( e )
+	{
+	    ShowLoader( );
+		var treeview = $( '#CategoryTreeView' ).data( 'tTreeView' );
+		var nodeId = treeview.getItemValue( e.item );
+		var destinationItemParent = $( e.destinationItem ).closest( '.t-item' );
+		var dropTargetId = treeview.getItemValue( destinationItemParent );
+
+		$.post( "/Category/DragNDrop", { dragNodeId: nodeId, parentNodeId: dropTargetId }, OnSuccess );
+	}
+
+	function OnSuccess( data ) 
+	{
+	    HideLoader(); 
+	}
+
+	function OnClickCategoryTreeView( evt  )
+	{
+	    ShowLoader( );
+		$( ":checked" ).removeProp( "checked" );
+		$(".t-state-selected").each(function() {
+			$(this).removeClass("t-state-selected");
+		});
+
+        $( evt.data.args ).addClass( "t-state-selected" );
+		$( evt.data.args ).find( "input[type='checkbox']" ).prop( "checked", "checked" );
+		
+		if ( $( ":checked" ).length > 0 )
+		    $( "#edit-link" ).css( 'display', 'block' );
+		else
+		    $( "#edit-link" ).css( 'display', 'none' );
+
+		var catId = $( evt.data.args ).find( "input[name='itemValue']" ).val();
+		$( "#category-id" ).val( catId );
+
+	    var succesDelegate = null;
+		if ( $( "#ProductsGridView" ).length == 0 )
+			RequestAsync( "/Category/SwitchView", JSON.stringify( { option: "assign-category", categoryId: catId } ), LoadResponceForm );
+		else
+			succesDelegate = ProductGridRebind;
+
+		RequestAsync( "/Category/SetProductsFilter", JSON.stringify( { categoryId: catId } ), succesDelegate );
+	}
+
+	function AssignEvents()
+	{
+		$( ".t-input" ).each( function ()
+		{
+			$(this).removeClass("t-input");
+		} );
+
+        $( "span.t-in" ).each( function ()
+        {
+            $( this ).parent( 'ul div' ).addClass( "public-tree-view" );
+            $( this ).click( null );
+            $( this ).click( { args: $( this ).parent( 'ul div' ) }, OnClickCategoryTreeView );
+        } );
+
+	    $( "ul div" ).each( function ()
+	    {
+	        $( this ).droppable( 
+				{
+				    tolerance: 'pointer',
+				    drop: function ( event, ui )
+				    {
+				        AssignProductToCategoryAsync( $( this ).find( "input[name='itemValue']" ).val() );
+				    }
+				} );
+	    } );
+	}
+
+	function AssignProductToCategoryAsync( categoryId )
+	{
+	    var products = new Array( );
+
+	    $( ".drag" ).find( "input[name='assign-checkbox']" ).each( function( ) { products.push( $( this ).prop( "id" ) ); } );
+	    RequestAsync( "/Category/AssignProductsToCategory", JSON.stringify( { productIds : products, category : categoryId } ), ProductGridRebind );
+	}
+
+	function RequestAsync ( actionUrl, jsonData, OnSuccess )
+	{
+		$.ajax( {
+			contentType: "application/json; charset=utf-8",
+			dataType: "html",
+			type: "post",
+			url: actionUrl,
+			traditional: true,
+			data: jsonData,
+			processData : false,
+			success: OnSuccess, 
+			error: ExceptionHandler
+		} );	    
+	}
+
+    function RebindData (  )
+	{
+		RequestAsync( "/Category/SwitchView", JSON.stringify( { option: "assign-category", categoryId: "Guid.Empty" } ), LoadResponceForm );
+        CategoryRebind( );
+	}
+	
+</script>
+

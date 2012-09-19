@@ -1,0 +1,130 @@
+﻿@using Litium.Resources
+@{ Layout = "_StartPage.cshtml";  }
+@section Styles
+{
+	<style type="text/css">
+		.example .configurator
+		{
+			width: 400px;
+			float: right;
+			margin: 0 0 0 10em;
+			display: inline;
+		}
+	</style>
+}
+
+
+
+<link rel="stylesheet" href="/Content/backoffice/reset.css" type="text/css"/>
+<link href="/Content/backoffice/style.css" rel="stylesheet" type="text/css" />
+<link href="/Content/backoffice/Site.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="/Content/backoffice/text.css" type="text/css"/>
+<link rel="stylesheet" href="/Content/backoffice/960_16_col.css" type="text/css"/>
+<link rel="stylesheet" href="/Content/backoffice/topmenu.css" type="text/css"/>
+<div id="loader">
+	<div id="icon-loader">
+	</div>
+</div>
+<div id="main" class="container_16">
+    <h2>Управління сайтом</h2>
+    <div class="grid_4 anotherBox expose-style_1 menu">
+            <div id="topnav">
+                <h4>
+                    <a href="#"><span>Меню</span></a></h4>
+            </div>
+            <div id="container" class="grid_3">
+                <strong><a href="/Users/Index" class="left-column">
+                    <div class="left-mine-column grid_3 alpha">@StoreResourceStrings.Users</div>
+                </a><a href="/Category/Index" class="left-column">
+                    <div class="left-mine-column grid_3 alpha">@StoreResourceStrings.Category</div>
+                </a><a href="/Product/Index" class="left-column">
+                    <div class="left-mine-column grid_3 alpha">@StoreResourceStrings.Products</div>
+                </a><a href="/Order/Index" class="left-column">
+                    <div class="left-mine-column grid_3 alpha">@StoreResourceStrings.Order</div>
+                </a><a href="/ProductSet/Index" class="left-column">
+                    <div class="left-mine-column grid_3 alpha">@StoreResourceStrings.ProductSetHeader</div>
+                </a><a href="/Campaign/Index" class="left-column">
+                    <div class="left-mine-column grid_3 alpha">@StoreResourceStrings.Campaign</div>
+                </a><a href="/Delivery/Index" class="left-column">
+                    <div class="left-mine-column grid_3 alpha">@WebStroreResource.Deliveries</div>
+                </a><a href="/Synchronization/Index" class="left-column">
+                    <div class="left-mine-column grid_3 alpha">@WebStroreResource.Synchronization</div>
+                </a></strong>
+            </div>
+        </div>
+	<div class="grid_16">
+        <div id="exception-panel" style="display: none;">
+            <div id="error-message">
+            </div>
+            <div style="padding: 10px;">
+                <strong><a href="#" onclick="javascript:CloseExceptionPanel();return false;">Submit</a></strong>
+            </div>
+        </div>
+        
+	</div>
+</div>
+<div class="container_16">
+	<div class="grid_16 anotherBox expose-style_1">
+		@RenderBody()
+	</div>
+</div>
+<script language="javascript" type="text/javascript">
+	window.GuidEmpty = "00000000-0000-0000-0000-000000000000";
+	window.StringEmpty = "";
+	window.TrueStatus = "true";
+	window.IntervalTimeOut = 5;
+
+	function ExceptionHandler( data, textStatus )
+	{
+	    if ( data.textStatus == "modelstateerror" )
+	        return;
+	    
+		var div = $( "<div id='error-message'>" );
+		if ( typeof ( data.XMLHttpRequest ) != "undefined" )
+			div.append( data.XMLHttpRequest.responseText );
+		else if ( typeof ( data.responseText ) != "undefined" )
+			div.append( data.responseText );
+
+		$( "#error-message" ).replaceWith( div );
+		$( "#exception-panel" ).css( "display", "block" );
+	}
+
+	function CloseExceptionPanel( parameters )
+	{
+		$( "#exception-panel" ).css( "display", "none" );
+	}
+
+	function ShowLoader()
+	{
+		$( "#loader" ).css( "display", "block" );
+	}
+
+	function HideLoader()
+	{
+		$( "#loader" ).css( "display", "none" );
+	}
+
+	$( document ).ready( function ()
+	{
+		$( "#topnav" ).click( function ( e )
+		{
+			e.preventDefault();
+			$( "#container" ).toggle();
+		} );
+
+		$( "#topnav" ).mouseup( function ()
+		{
+			return false;
+		} );
+
+		$( document ).mouseup( function ( e )
+		{
+			if ( $( e.target ).parent( "a.signin" ).length == 0 )
+			{
+				$( ".signin" ).removeClass( "menu-open" );
+				$( "fieldset#signin_menu" ).hide();
+			}
+		} );
+	} );
+
+</script>

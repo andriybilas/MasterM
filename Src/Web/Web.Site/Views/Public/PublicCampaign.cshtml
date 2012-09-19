@@ -1,0 +1,81 @@
+﻿@using Site.Infrastuctures.ModelHelpers
+@using Site.Infrastuctures.ModelHelpers.Product
+@model ProductBagModel
+@{ Layout = "~/Views/Shared/_PublicMain.cshtml"; }
+@if (Model != null)
+{
+    <div id="category-image-zone" style="display: none;">
+        <img src="" id="category-image" />
+    </div>
+
+    <div id="campaign-zone" style="display: none;">
+        <h4 class="none">@Html.DisplayTextFor(x => x.Name)</h4>
+        @Html.Hidden("entity-type", EntityType.Campaign)
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.HasImage)
+        @Html.Partial("PublicSite/ImageLoader")
+        <strong class="none">@Html.DisplayTextFor(x => x.Description)</strong> <a href="/Public/Index"
+                                                                                  id="campaign-changer">
+                                                                                   <div id="public-image-placeholder" style="display: none;">
+                                                                                       <img src="" id="public-image" />
+                                                                                   </div>
+                                                                               </a>
+        @Html.Partial("PublicSite/ProductRepeater", Model)
+    </div>
+}
+    <script type="text/javascript" language="javascript">
+        var _page = 1;
+        var _inCallback = false;
+        var _searchKeyWord = window.StringEmpty;
+        var _brand = window.StringEmpty;
+        window.StringEmpty = "";
+        window.SelectedCategoryId = window.StringEmpty;
+
+        $( document ).ready( function ()
+        {
+            $( "#campaign-zone" ).delay( 500 ).fadeIn( "slow" );
+            window.docHeight = $( document ).scrollTop();
+        } );
+
+        $( window ).scroll( function ()
+        {
+            if ( $( window ).scrollTop() == $( document ).height() - $( window ).height() )
+            {
+                LoadProducts();
+            }
+        } );
+
+        function LoadProducts()
+        {
+            if ( _page > -1 && !_inCallback )
+            {
+                _page++;
+                var catId = $( "input[name='selected-category-id']" ).val();
+
+                if ( catId != window.StringEmpty )
+                {
+                    _inCallback = true;
+                    $( "#product-loading " ).css( "display", "block" );
+
+                    if ( _brand != window.StringEmpty )
+                    {
+                        PostAjaxRequest( "html", "/Public/LoadProductsByBrand", JSON.stringify( { categoryId: catId, brand: _brand, page: _page } ),
+						AppendProducts );
+                    }
+                    else
+                    {
+                        PostAjaxRequest( "html", "/Public/LoadProductsByCategory/", JSON.stringify( { categoryId: catId, page: _page } ),
+			    		AppendProducts );
+                    }
+                }
+            }
+        }
+
+        function AppendProducts( data )
+        {
+            $( "#product-loading" ).css( "display", "none" );
+            $( "#products-view" ).append( data );
+            _inCallback = false;
+        }
+
+    </script>

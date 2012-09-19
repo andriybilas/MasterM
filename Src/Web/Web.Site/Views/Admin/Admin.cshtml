@@ -1,0 +1,38 @@
+﻿@{ Layout = "~/Views/Shared/_StartPage.cshtml"; }
+@using Litium.Resources
+@model Site.Infrastuctures.Security.Model.LogOnModel
+<link href="@Url.Content("~/Content/backoffice/Site.css")" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="@Url.Content("~/Content/backoffice/960_16_col.css")" type="text/css"/>
+<div class="container_12">
+	@using (Html.BeginForm("LogIn", "Admin"))
+ {
+		<div class="grid_7" style="margin-left: 50%; margin-right: 50%; position: relative; left:-100px; top:230px;">
+			<fieldset class="admin">
+				<p style="font-weight: bold">@WebStroreResource.AdminPage</p>
+				<div class="grid_5">
+					@Html.ValidationSummary(false)
+					<div class="editor-label">
+						@Html.LabelFor(m => m.LoginName)</div>
+					<div class="editor-field">
+						@Html.TextBoxFor(m => m.LoginName, new { style = "width:150px;" })
+						<div class="validation-line">
+							@Html.ValidationMessageFor(m => m.LoginName)</div>
+					</div>
+					<div class="editor-label">
+						@Html.LabelFor(m => m.Password)
+					</div>
+					<div class="editor-field">
+						@Html.PasswordFor(m => m.Password, new { style = "width:150px;" })
+						<div class="validation-line">
+							@Html.ValidationMessageFor(m => m.Password)</div>
+					</div>
+				</div>
+				<div class="clear">
+				</div>
+				<div class="textalignright" style="margin: 10px;">
+					<input type="submit" value="@WebStroreResource.Login" class="button" />
+				</div>
+			</fieldset>
+		</div>
+ }
+</div>

@@ -1,0 +1,76 @@
+﻿@using Litium.Resources
+@using Web.Site
+@model Site.Infrastuctures.ModelHelpers.Synchronization.SynchModel
+
+@{ Layout = "~/Views/Shared/_BackOfficeMain.cshtml"; }
+
+<h2>@WebStroreResource.Synchronization</h2>
+@Html.ValidationSummary(false)
+<div class="grid_4">
+    <fieldset class="web-fieldset">
+        <legend>@WebStroreResource.ImportProducts</legend>
+        @(Html.Telerik().Upload().Name("attachments")
+           .Async(asn => asn.AutoUpload(true)
+                             .Save("UploadProductsAsync", "Synchronization")).Multiple(false)
+           .Localizable("uk-UA")
+           .ClientEvents(
+               evt =>
+                   {
+                       evt.OnSuccess("FileUploadSuccess");
+                       evt.OnError("ExceptionHandler");
+                   }
+           ))
+        <p class="note">
+            Maximum allowed file size: 10 MB
+        </p>
+    </fieldset>
+</div>
+<div class="grid_8">
+    
+    @using (Html.BeginForm("DownloadOdersXml", "Synchronization", FormMethod.Post))
+    {
+        <fieldset class="web-fieldset">
+            <legend>@WebStroreResource.ExportOrders</legend>
+            
+            <div class="grid_7">
+                <label for="StartDatePicker">@WebStroreResource.StartSynchDate</label>
+                <div>
+                    @Html.Telerik().DatePicker().Name("StartSynchDate").ShowButton(true).Value(DateTime.Now)
+                </div>
+            </div>
+            <div class="grid_7">
+                <label for="EndDatePicker">@WebStroreResource.EndSynchDate</label>
+                <div>
+                    @Html.Telerik().DatePicker().Name("EndSynchDate").ShowButton(true).Value(DateTime.Now)
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="grid_6" style="padding-top: 3px;">
+                @Html.CheckBox("FromLastSynch")
+                <label for="FromLastSynch">@WebStroreResource.LastSynchDate</label>
+            </div>
+                @Html.ActionLinkSubmit(WebStroreResource.DownloadOrders, null, new Dictionary<string, object> {{"class", "t-button"}})
+        </fieldset>
+    }
+</div>
+<script type="text/javascript" language="javascript">
+
+	$(document).ready(function() {
+		$("input[name='FromLastSynch']").click(function() {
+			if ($(this).is(":checked")) {
+				$("#StartSynchDate").data("tDatePicker").disable();
+				$("#EndSynchDate").data("tDatePicker").disable();
+			} 
+			else{
+				$("#StartSynchDate").data("tDatePicker").enable();
+				$("#EndSynchDate").data("tDatePicker").enable();
+			}
+		});
+	});
+
+	function FileUploadSuccess()
+	{
+
+	}
+
+</script>

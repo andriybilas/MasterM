@@ -1,0 +1,592 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{32F11758-8957-4C14-BED2-62B077A1038B}</ProjectGuid>
+    <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Web.Site</RootNamespace>
+    <AssemblyName>Web.Site</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
+    <ExcludeGeneratedDebugSymbol>true</ExcludeGeneratedDebugSymbol>
+    <DesktopBuildPackageLocation>..\..\..\Publish\Web.Site.zip</DesktopBuildPackageLocation>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ExcludeGeneratedDebugSymbol>true</ExcludeGeneratedDebugSymbol>
+    <PackageAsSingleFile>true</PackageAsSingleFile>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
+    <DesktopBuildPackageLocation>..\..\..\..\DEPLOY\Web.Site.zip</DesktopBuildPackageLocation>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DataAnnotationsExtensions">
+      <HintPath>..\..\..\packages\DataAnnotationsExtensions.1.1.0.0\lib\NETFramework40\DataAnnotationsExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="DataAnnotationsExtensions.ClientValidation">
+      <HintPath>..\..\..\packages\DataAnnotationsExtensions.MVC3.1.1.0.0\lib\NETFramework40\DataAnnotationsExtensions.ClientValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Web.Helpers" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Telerik.Web.Mvc, Version=2012.1.214.340, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\SharedLib\Telerik\Mvc3\Telerik.Web.Mvc.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_GlobalResources\EditorLocalization.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditorLocalization.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GridLocalization.uk-UA.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLocalization.uk-UA.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_Start\RegisterClientValidationExtensions.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AuthorizationController.cs" />
+    <Compile Include="Controllers\CampaignController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\DeliveryController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ProductSetController.cs" />
+    <Compile Include="Controllers\PublicController.cs" />
+    <Compile Include="Controllers\SharedController.cs" />
+    <Compile Include="Controllers\ShoppingCartController.cs" />
+    <Compile Include="Controllers\SynchronizationController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Extensions\ActionLinkExtension.cs" />
+    <Compile Include="Extensions\ActionResultExtensions.cs" />
+    <Compile Include="Extensions\ResponseCapture.cs" />
+    <Compile Include="Extensions\StreamOperationExtension.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\2012.1.214\Office2010Blue\editor.png" />
+    <Content Include="Content\2012.1.214\Office2010Blue\gradient.png" />
+    <Content Include="Content\2012.1.214\Office2010Blue\imagebrowser.png" />
+    <Content Include="Content\2012.1.214\Office2010Blue\loading.gif" />
+    <Content Include="Content\2012.1.214\Office2010Blue\slider-h.gif" />
+    <Content Include="Content\2012.1.214\Office2010Blue\slider-v.gif" />
+    <Content Include="Content\2012.1.214\Office2010Blue\sprite-vertical.png" />
+    <Content Include="Content\2012.1.214\Office2010Blue\sprite.png" />
+    <Content Include="Content\2012.1.214\Office2010Blue\treeview-line.png" />
+    <Content Include="Content\2012.1.214\Office2010Blue\treeview-nodes-rtl.png" />
+    <Content Include="Content\2012.1.214\Office2010Blue\treeview-nodes.png" />
+    <Content Include="Content\2012.1.214\telerik.common.min.css" />
+    <Content Include="Content\backoffice\960_16_col.css" />
+    <Content Include="Content\backoffice\topmenu.css" />
+    <Content Include="Content\Images\ajax-loader.gif" />
+    <Content Include="Content\Images\bckgrd-bottom.png" />
+    <Content Include="Content\Images\bckgrd-top.png" />
+    <Content Include="Content\Images\checkbox.png" />
+    <Content Include="Content\Images\error.png" />
+    <Content Include="Content\Images\file.gif" />
+    <Content Include="Content\Images\folder-closed.gif" />
+    <Content Include="Content\Images\folder.gif" />
+    <Content Include="Content\Images\loading.gif" />
+    <Content Include="Content\Images\minus.gif" />
+    <Content Include="Content\public\images\payment_prov.png" />
+    <Content Include="Content\Images\plus.gif" />
+    <Content Include="Content\public\images\privat_24.jpg" />
+    <Content Include="Content\Images\treeview-black-line.gif" />
+    <Content Include="Content\Images\treeview-black.gif" />
+    <Content Include="Content\Images\treeview-default-line.gif" />
+    <Content Include="Content\Images\treeview-default.gif" />
+    <Content Include="Content\Images\treeview-famfamfam-line.gif" />
+    <Content Include="Content\Images\treeview-famfamfam.gif" />
+    <Content Include="Content\Images\treeview-gray-line.gif" />
+    <Content Include="Content\Images\treeview-gray.gif" />
+    <Content Include="Content\Images\treeview-red-line.gif" />
+    <Content Include="Content\Images\treeview-red.gif" />
+    <Content Include="Content\backoffice\style.css" />
+    <Content Include="Content\public\css\960_12_col.css" />
+    <Content Include="Content\public\css\foundation.css" />
+    <Content Include="Content\public\css\reset.css" />
+    <Content Include="Content\public\css\verticalrhythm.css" />
+    <Content Include="Content\public\images\brand_filter_background.png" />
+    <Content Include="Content\public\images\buy_button.png" />
+    <Content Include="Content\public\images\delivery_info.png" />
+    <Content Include="Content\public\images\logo.png" />
+    <Content Include="Content\public\images\main_background.jpg" />
+    <Content Include="Content\public\images\minus.png" />
+    <Content Include="Content\public\images\order_button.png" />
+    <Content Include="Content\public\images\page_background.png" />
+    <Content Include="Content\public\images\plus.png" />
+    <Content Include="Content\public\images\search.png" />
+    <Content Include="Content\public\images\top_background.png" />
+    <Content Include="Scripts\2012.1.214\telerik.common.min.js" />
+    <Content Include="Content\2012.1.214\telerik.office2010blue.min.css" />
+    <Content Include="Content\2012.1.214\telerik.rtl.min.css" />
+    <Content Include="Content\backoffice\960_12_col.css" />
+    <Content Include="Content\backoffice\demo.css" />
+    <Content Include="Content\backoffice\reset.css" />
+    <Content Include="Content\backoffice\text.css" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\2012.1.214\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\2012.1.214\jquery.validate.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.all.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.autocomplete.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.calendar.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.chart.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.combobox.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.datepicker.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.datetimepicker.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.draganddrop.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.editor.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.grid.editing.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.grid.filtering.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.grid.grouping.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.grid.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.grid.reordering.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.grid.resizing.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.imagebrowser.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.list.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.menu.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.panelbar.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.slider.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.splitter.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.tabstrip.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.textbox.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.timepicker.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.treeview.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.upload.min.js" />
+    <Content Include="Scripts\2012.1.214\telerik.window.min.js" />
+    <Content Include="Scripts\globalize.js" />
+    <Content Include="Scripts\globalize.min.js" />
+    <Content Include="Scripts\head.load.js" />
+    <Content Include="Scripts\head.load.min.js" />
+    <Content Include="Scripts\jquery.tmpl.js" />
+    <Content Include="Scripts\jquery.treeview.all-2.0.0.js" />
+    <Content Include="Scripts\jquery.treeview.all-2.0.0.min.js" />
+    <Content Include="Scripts\additional-methods.min.js" />
+    <Content Include="Scripts\JScript1.js" />
+    <Content Include="Scripts\knockout-2.0.0.debug.js" />
+    <Content Include="Scripts\knockout.all-2.1.0.min.js" />
+    <Content Include="Scripts\knockout.mapping-2.0.0.debug.js" />
+    <Content Include="Scripts\site.common.js" />
+    <Content Include="Scripts\site.controls.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Content\backoffice\Site.css" />
+    <Content Include="Scripts\jquery-1.4.4.js" />
+    <Content Include="Scripts\jquery-1.4.4.min.js" />
+    <Content Include="Scripts\jquery-1.4.4-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\MicrosoftAjax.js" />
+    <Content Include="Scripts\MicrosoftAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="WebForm1.aspx" />
+    <None Include="_bin_deployableAssemblies\System.Web.Mvc.dll" />
+    <None Include="_bin_deployableAssemblies\WebMatrix.WebData.xml" />
+    <None Include="_bin_deployableAssemblies\WebMatrix.WebData.dll" />
+    <None Include="_bin_deployableAssemblies\WebMatrix.Data.xml" />
+    <None Include="_bin_deployableAssemblies\WebMatrix.Data.dll" />
+    <None Include="_bin_deployableAssemblies\System.Web.WebPages.xml" />
+    <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.xml" />
+    <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
+    <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />
+    <None Include="_bin_deployableAssemblies\System.Web.WebPages.Deployment.xml" />
+    <None Include="_bin_deployableAssemblies\System.Web.WebPages.Deployment.dll" />
+    <None Include="_bin_deployableAssemblies\System.Web.WebPages.Administration.dll" />
+    <None Include="_bin_deployableAssemblies\System.Web.Razor.xml" />
+    <None Include="_bin_deployableAssemblies\System.Web.Razor.dll" />
+    <None Include="_bin_deployableAssemblies\System.Web.Helpers.xml" />
+    <None Include="_bin_deployableAssemblies\System.Web.Helpers.dll" />
+    <None Include="_bin_deployableAssemblies\NuGet.Core.dll" />
+    <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.xml" />
+    <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\Currency.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\GridForeignKey.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\Integer.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\Number.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\Time.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\EditorLocalization.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>EditorLocalization.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\GridLocalization.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GridLocalization.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_StartPage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_BackOfficeMain.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_PublicMain.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Users\Users.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Litium.Common.Entities\Litium.Common.Entities.csproj">
+      <Project>{FCF5A0E9-150C-4354-A58B-15068F190FB1}</Project>
+      <Name>Litium.Common.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Litium.Common.Setup\Litium.Common.Setup.csproj">
+      <Project>{A57FF98D-83CD-4719-BC29-64990ACDD5DF}</Project>
+      <Name>Litium.Common.Setup</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Litium.Common\Litium.Common.csproj">
+      <Project>{681339D2-DBDF-47A4-9B2D-96DBED7FF3E0}</Project>
+      <Name>Litium.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Litium.Resources\Litium.Resources.csproj">
+      <Project>{35643519-667C-4E15-B7E4-212108FCA3A7}</Project>
+      <Name>Litium.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Domain\Litium.Domain.Entities\Litium.Domain.Entities.csproj">
+      <Project>{E56D099E-7AC1-4DB4-993F-5607F807A02A}</Project>
+      <Name>Litium.Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Domain\Litium.Domain.Mappings\Litium.Domain.Mappings.csproj">
+      <Project>{B549B9FD-E60B-42ED-B4C2-236265881182}</Project>
+      <Name>Litium.Domain.Mappings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Domain\Litium.Domain\Litium.Domain.csproj">
+      <Project>{4AE21A62-2782-48F0-A9CE-197C6B1ED8AE}</Project>
+      <Name>Litium.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Litium.Infrastructure.DataAccess\Litium.Infrastructure.DataAccess.csproj">
+      <Project>{89DCB4E9-315E-443B-B33B-27C0B20F374F}</Project>
+      <Name>Litium.Infrastructure.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Litium.Infrastructure.InversionOfControl\Litium.Infrastructure.InversionOfControl.csproj">
+      <Project>{7169DB1B-DBD8-420C-AA3D-EFCF587C5481}</Project>
+      <Name>Litium.Infrastructure.InversionOfControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Site.Infrastuctures\Site.Infrastuctures.csproj">
+      <Project>{94E61882-15DB-43D4-BA8C-6D9D75312E81}</Project>
+      <Name>Site.Infrastuctures</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\EditPerson.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Product\Products.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Category\Category.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Partial\NewCategory.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="PublicFiles\ProductImages\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\EditProduct.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Order\Order.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Partial\ProductAssign.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ProductSet\ProductSetView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Partial\Window.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Partial\NewProductSetForm.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Partial\CategorySource.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Partial\ImageUpload.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Campaign\CampaignView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\CampaignPartial\CreateCampaign.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\CampaignPartial\PriceByProductCampaign.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\CampaignPartial\AssignProductsForCampaign.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\CampaignPartial\ViewCampaigns.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\EditCampaignProduct.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\CampaignPartial\EditCampaign.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\CampaignPartial\PercentByProductSetCampaign.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\CampaignPartial\PersonalCampaign.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\PublicSite\ProductRepeater.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\PublicSite\ProductControl.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Partial\QuickSearch.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\CurrencyReadOnly.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\PublicSite\ImageLoader.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Authorization\Login.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Authorization\RegistrationStep1.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\PublicSite\CategoryTree.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Public\PublicCampaign.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Authorization\RegistrationStep2.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Authorization\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\PublicSite\MiniCart.cshtml" />
+    <Content Include="Views\Shared\PublicSite\MiniCartItem.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\PublicSite\TopMenu.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\PublicSite\TopSearch.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\PublicSite\Controls\PlusMinusControl.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ShoppingCart\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\PublicSite\Controls\CartRowCount.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\PublicSite\ShoppingCartOrder.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ShoppingCart\OrderComplete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Delivery\Delivery.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\EditDelivery.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\PublicSite\OrderDelivery.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Authorization\UserProfile.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Authorization\UserOrderHistory.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\PublicSite\OrderHistoryDetails.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Authorization\ChangePassword.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\PublicSite\Controls\BrandFilter.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\EditOrder.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\OrderStateEnumerator.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\PaymentMethodEnumerator.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\DeliveryMethodEnumerator.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\PublicSite\MailOrder.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\Admin.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Synchronization\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Public\SearchProduct.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\EditProductSet.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Public\LoyalityProgram.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Public\HowToOrder.cshtml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>False</AutoAssignPort>
+          <DevelopmentServerPort>62931</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+</Project>

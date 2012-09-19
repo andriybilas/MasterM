@@ -1,0 +1,83 @@
+﻿@using Litium.Resources
+@model Site.Infrastuctures.ModelHelpers.Campaign.PercentByProductSetCampaignModel
+
+<div id="campaign-partial-view">
+    
+    @Html.Hidden("confirm-succeed", WebStroreResource.Succesfull)
+    @Html.HiddenFor(x => x.ProductSetId)
+    <fieldset class="product-edit-arrea">
+        <legend>@StoreResourceStrings.ProductSetHeader</legend>
+        @Html.LabelFor(x => x.Name)
+        <div style="width: 305px;">@(Html.Telerik().DropDownList().Name("productSetDropDown")
+           .DataBinding(bind => bind.Ajax().Select("GetProductSets", "Campaign"))
+           .Effects(eff => eff.Slide()).SelectedIndex(0)
+           .HtmlAttributes(new { style = "width:300px; height:26px;" }))
+        </div>
+        <div>
+            @Html.LabelFor(x => x.Percent)
+        </div>
+        <div>
+            @Html.TextBoxFor(x => x.Percent)
+            @Html.ValidationMessageFor(x => x.Percent)
+        </div>
+        <strong><a href="#" onclick="javascript:SubmitChanges (); return false; " class="t-button t-button-icon"
+                   style="margin-top: 5px;"><span class="t-icon t-update" ></span></a></strong>
+    </fieldset>
+</div>
+
+<script type="text/javascript" language="javascript">
+
+    $( document ).ready( 
+        function ()
+        {
+            CheckModelBindingStatus();
+            window.timeout_id = setInterval( CheckModelBindingStatus, 200 );
+        } );
+
+    function CheckModelBindingStatus()
+    {
+        if ( typeof ( $( "#productSetDropDown" ).data( "tDropDownList" ) ) != "undefined" )
+        {
+            clearInterval( window.timeout_id );
+            PostAjaxRequest( "json", "/Campaign/GetProductSets", null, PopulateDropDown );
+        }
+    }
+
+    function PopulateDropDown( data )
+    {
+        $( "#productSetDropDown" ).data( "tDropDownList" ).dataBind( data );
+        PostAjaxRequest( "json", "/Campaign/GetCampainTypeData", null, UpdateCampaingView );
+    }
+
+    function UpdateCampaingView( data )
+    {
+        if ( data != null )
+        {
+            $( "input=[name='Percent']" ).val( data.Percent );
+            var selectItem = function ( dataItem ) { return dataItem.Value == data.ProductSetId; };
+            $( "#productSetDropDown" ).data( "tDropDownList" ).select( selectItem );
+        }
+    }
+
+    function SubmitChanges()
+    {
+        var id = $( "#productSetDropDown" ).val();
+        var text = $( "#productSetDropDown" ).data( "tDropDownList" ).text();
+        var percent = $( "input=[name='Percent']" ).val();
+        var details = new PercentByProductSetCampaignModel( id, text, percent );
+        PostAjaxRequest( "json", "/Campaign/SubmitProductSetCampaignChanges", JSON.stringify( { campaignDetails: details } ), SubmitSuccessfull );
+    }
+
+    function SubmitSuccessfull()
+    {
+        alert( $( "input[name='confirm-succeed']" ).val() );
+    }
+
+    var PercentByProductSetCampaignModel = function( id, name, percent )
+    {
+        this.ProductSetId = id;
+        this.Name = name;
+        this.Percent = percent;
+    };
+
+</script>

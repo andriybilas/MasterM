@@ -1,0 +1,75 @@
+﻿@model Site.Infrastuctures.ModelHelpers.Order.OrderModel
+@using Litium.Resources
+    
+
+<div id="shopping-cart-items">
+    <fieldset>
+        <h4>@WebStroreResource.YourOrder</h4>
+        <table class="orderinfo">
+            <tr>
+                <th class="grid_2 alpha">@WebStroreResource.ProductName
+                </th>
+                <th class="grid_2">@WebStroreResource.Count
+                </th>
+                <th>@WebStroreResource.Price
+                </th>
+                <th>@WebStroreResource.Summa
+                </th>
+				<th></th>
+            </tr>
+            @{ foreach (var orderItem in Model.OrderRows)
+               {
+                   <tr> 
+                       <td class="grid_2 alpha"> 
+                           @Html.HiddenFor(x => orderItem.ProductId)
+                           @Html.DisplayTextFor(x => orderItem.ProductName)
+                       </td>
+                       <td class="grid_2">
+                           <div>
+                               @Html.Partial("PublicSite/Controls/CartRowCount", orderItem)
+                           </div>
+                       </td>
+                       <td>
+							@if (orderItem.CampaignPrice > 0)
+							{
+								<div class="oldprice">
+									@Html.DisplayFor(x => orderItem.Price)<br />
+								</div>
+								<div class="campaignprice">
+									@Html.DisplayFor(x => orderItem.CampaignPrice)
+								</div>
+							}else
+							{
+								<div>
+									@Html.DisplayFor(x => orderItem.Price)<br />
+								</div>
+							}
+                       </td>
+                       <td>@Html.DisplayFor(x => orderItem.Summa)
+                       </td>
+                       <td>
+                           <a href="#" onclick="javascript:DeleteCartItem('@orderItem.ProductId'); return false;"><strong title="@WebStroreResource.Delete">x</strong></a>
+                       </td>
+                   </tr>
+			   } }
+        </table>
+    </fieldset>
+	<div class="grid_4 alpha">
+		<div>
+			@Html.LabelFor(x => x.OrderSumma)
+			<div class="floatright bold">@Html.DisplayFor(x => x.OrderSumma)</div>
+		</div>
+		<div>
+			@Html.LabelFor(x => x.PersonalDiscount)
+			<div class="floatright bold">@Html.DisplayFor(x => x.PersonalDiscount)</div>
+		</div>
+		<div>
+			@Html.LabelFor(x => x.DeliveryPayment)
+			<div class="floatright bold">@Html.DisplayFor(x => x.DeliveryPayment)</div>
+		</div>
+		<div>
+			@Html.LabelFor(x => x.OrderTotal)
+			<div class="floatright bold">@Html.DisplayFor(x => x.OrderTotal)</div>
+		</div>
+	</div>
+</div>

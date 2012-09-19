@@ -1,0 +1,107 @@
+﻿@using System.Web.UI.WebControls
+@using Web.Site
+@using Litium.Resources
+@using Site.Infrastuctures.ModelHelpers.Product
+
+@functions
+{
+	private static string PublishedCheckBoxTemplate()
+	{
+		return "<input type='checkbox' name='assignProducts' />";
+	}
+
+	private static string PublishedGroupCheckBoxTemplate()
+	{
+		return "<input type='checkbox' name='group-assignProducts' id='group-assignProducts-id'/>" +
+			   "<label for='group-assignProducts-id'>" + StoreResourceStrings.All + "</label>";
+	}
+}
+
+
+    <script type="text/javascript" language="javascript" >
+
+        $( document ).ready( PageLoad );
+
+        function PageLoad()
+        {
+            $( 'input[name="group-assignProducts"]' ).click( GroupCheckBoxCheckedChenged );
+            $( '.t-grid-AssignToCategoryCommand' ).prop( "href", "#" );
+        }
+
+        function GroupCheckBoxCheckedChenged()
+        {
+            if ( $( 'input[name="group-assignProducts"]' ).prop( "checked" ) == true )
+                $( "input[name='assignProducts']" ).each( function () { $( this ).prop( "checked", true ).trigger( "change" ); } );
+            else
+                $( "input[name='assignProducts']" ).each( function () { $( this ).prop( "checked", false ).trigger( "change" ); } );
+        }
+
+        function ProductsGridViewRowDataBound( evt )
+        {
+            var checkBox = $( evt.row ).find( "input[name='assignProducts']" );
+            checkBox.val( evt.dataItem.Id );
+        }
+
+        function ProductGridRebind()
+        {
+            if ( $( "#ProductsGridView" ).length != 0 )
+                $( "#ProductsGridView" ).data( "tGrid" ).ajaxRequest();
+        }
+
+        function CloseWindow( )
+        {
+            if ( $( "#campaignProducts" ).length != 0 )
+                $( "#campaignProducts" ).data( "tGrid" ).ajaxRequest();
+
+            if ( $( '#Window' ).length > 0 )
+                $( '#Window' ).data( 'tWindow' ).close( );
+        }
+
+    </script>
+
+
+@Html.Partial("Partial/QuickSearch")
+
+<fieldset class="web-fieldset">
+    <legend>@StoreResourceStrings.ChouseProductsToAssign</legend>
+
+@using (Ajax.BeginForm ("AssignProductsForCampaign", "Campaign", null, new AjaxOptions { HttpMethod = "Post", OnSuccess = "CloseWindow" }))
+{
+
+ Html.Telerik().Grid<ProductModel>()
+            .Name("ProductsGridView")
+			.DataKeys(keys => keys
+			                  	.Add(c => c.Id)
+			                  	.RouteKey("productId"))
+			.DataBinding(dataBinding => dataBinding.Ajax().Select("GetProductsAsync", "Product"))
+			.EnableCustomBinding(true)
+			.Columns(columns =>
+			         {
+			         	columns.Bound(c => c.Published).ClientTemplate(PublishedCheckBoxTemplate()).Filterable(false)
+							.Title(PublishedGroupCheckBoxTemplate()).Sortable(false).HtmlAttributes(new
+								{ style = "text-align:center;width:90px; word-wrap:break-word;" });
+			         	columns.Bound(c => c.Name);
+			         	columns.Bound(c => c.Price).Format("{0:c}").HtmlAttributes(new { style = "text-align:right;" });
+			         	columns.Bound(c => c.Category).HtmlAttributes(new { style = "text-align:center; width:50px;" }).Filterable(false);
+					 })
+			.Pageable(pagerAction =>
+			          {
+			          	pagerAction.PageSize(10);
+			          	pagerAction.Total(10);
+					  })
+			.ClientEvents(evt =>
+			              {
+			              	evt.OnRowDataBound("ProductsGridViewRowDataBound");
+			              	evt.OnError("ExceptionHandler");
+						  })
+			.Sortable()
+			.Filterable()
+			.Render();
+	    <div>
+            <strong>
+                @Html.ActionLinkSubmit(StoreResourceStrings.Add, ButtonType.Image, null, new Dictionary<string, object> { { "style", "margin-top:5px;" } })
+            </strong>
+        </div>
+}
+
+</fieldset>

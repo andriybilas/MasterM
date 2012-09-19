@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Site.Infrastuctures.ModelHelpers.Campaign.PercentByProductSetCampaign">
+    <Position X="1" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ModelHelpers\Campaign\PercentByProductSetCampaign.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Site.Infrastuctures.ModelHelpers.Campaign.PersonalCampaign">
+    <Position X="3.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ModelHelpers\Campaign\PersonalCampaign.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Site.Infrastuctures.ModelHelpers.Campaign.PriceByProductCampaign">
+    <Position X="5.75" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ModelHelpers\Campaign\PriceByProductCampaign.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Site.Infrastuctures.ModelHelpers.Campaign.PersonalCampaignModel">
+    <Position X="3.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAACAAAAAA=</HashCode>
+      <FileName>ModelHelpers\Campaign\PersonalCampaignModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Site.Infrastuctures.ModelHelpers.Campaign.PercentByProductSetCampaignModel">
+    <Position X="0.5" Y="7.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQCAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>ModelHelpers\Campaign\PercentByProductSetCampaignModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Site.Infrastuctures.ModelHelpers.Campaign.CampaignModel">
+    <Position X="3.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ModelHelpers\Campaign\CampaignModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Site.Infrastuctures.ModelHelpers.Campaign.PriceByProductCampaignItemModel">
+    <Position X="7.5" Y="7.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAAAAEAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ModelHelpers\Campaign\PriceByProductCampaignItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Site.Infrastuctures.ModelHelpers.Campaign.PriceByProductCampaignModel">
+    <Position X="5" Y="7.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIABAAAAAAEABBACAAABAAAAQAAAAAUAAAAAAAEAAA=</HashCode>
+      <FileName>ModelHelpers\Campaign\PriceByProductCampaignModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Site.Infrastuctures.ModelHelpers.Campaign.CampaignBase">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAACAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>ModelHelpers\Campaign\CampaignBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Site.Infrastuctures.ModelHelpers.Campaign.CampaignType">
+    <Position X="8.75" Y="2.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAgAAAAQACA=</HashCode>
+      <FileName>ModelHelpers\Campaign\CampaignType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="8.25" />
+</ClassDiagram>

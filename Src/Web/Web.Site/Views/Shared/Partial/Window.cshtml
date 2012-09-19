@@ -1,0 +1,38 @@
+﻿@{ Html.Telerik().Window()
+        .Name("Window")
+        .Title((String)ViewBag.WindowTitle)
+        .Draggable(true)
+        .Modal(true)
+        .Buttons(b => b.Close())
+        .LoadContentFrom((String)ViewBag.ActionName, (String)ViewBag.ControllerName)
+        .ClientEvents(events => 
+        { 
+            events.OnLoad("Window_onLoad");
+			events.OnError ("ExceptionHandler");
+            events.OnClose("DestroyWindow");
+        })
+        .Effects(fx => fx
+            .Zoom()
+            .Opacity()
+            .OpenDuration(300)
+            .CloseDuration(300))
+        .Width((int)ViewBag.Width)
+		.ContentHtmlAttributes(new { style = "top:20px;" } )
+        .Render();
+}
+
+
+<script type="text/javascript" language="javascript">
+
+	function Window_onLoad ( parameters )
+	{
+    	$( '#Window' ).data( 'tWindow' ).center().open();
+    	$( "#Window" ).css( "top", "50px;" );
+    }
+
+    function DestroyWindow ( )
+    {
+        $( '#Window' ).remove( );
+    }
+
+</script>

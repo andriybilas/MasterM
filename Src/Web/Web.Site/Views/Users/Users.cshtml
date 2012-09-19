@@ -1,0 +1,76 @@
+﻿@using Litium.Resources
+@using Site.Infrastuctures.ModelHelpers.User
+
+@functions {
+    private string IsUserActive()
+    {
+        return "<input type='checkbox' name='is-active-check-box' value='<#= Active #>' disabled='disabled'/>";
+    }
+
+}
+
+@{
+	ViewBag.Title = "Users";
+	Layout = "~/Views/Shared/_BackOfficeMain.cshtml";
+}
+
+<h2>@StoreResourceStrings.Users</h2>
+
+@{ Html.Telerik().Grid<UserModel>()
+       .Name("Customers")
+       .DataKeys(keys => keys.Add(c => c.Id).RouteKey("userId"))
+       .DataBinding(dataBinding => dataBinding
+            .Ajax()
+            .Select("GetPersonsAsync", "Users")
+            .Insert("InsertPersonAsync", "Users")
+            .Update("UpdatePersonAsync", "Users")
+			.Delete("DeletePersonAsync", "Users"))
+	.Columns(columns =>
+	{
+        columns.Command(commands =>
+		{
+			commands.Edit().ButtonType(GridButtonType.Image);
+			commands.Delete().ButtonType(GridButtonType.Image);
+		}).Width(80);
+        columns.Bound(c => c.DisplayName).Title(StoreResourceStrings.FirstName);
+        columns.Bound(c => c.PhoneMobile).Title(StoreResourceStrings.PhoneMobile);
+        columns.Bound(c => c.LastLoginDate).Title(StoreResourceStrings.LastLogin).Format("{0:dd/MM/yyyy}");
+        columns.Bound(c => c.Active).ClientTemplate(IsUserActive()).HtmlAttributes(new { style = "text-align:center;width:90px;" });
+	})
+     .DetailView(view => view.ClientTemplate(
+        "<fieldset class='product-edit-arrea'>" +
+             "<legend>" + StoreResourceStrings.UserDetails + "</legend>" +
+            "<ul>" +
+                "<li>"+ StoreResourceStrings.PhoneHome + ": <#= PhoneHome #></li>" +
+                "<li>"+ StoreResourceStrings.Email + ": <#= Email #></li>" +
+                "<li>"+ StoreResourceStrings.Address + ": <#= Address1 #></li>" +
+                "<li>"+ StoreResourceStrings.City + ": <#= City #></li>" +
+            "</ul>" +
+         "</fieldset>"
+        ))
+	.ToolBar(commands => commands.Insert()
+		.ButtonType(GridButtonType.ImageAndText)
+		.ImageHtmlAttributes(new { style = "margin-left:0" }))
+    .Editable(editing => editing.Mode(GridEditMode.PopUp).TemplateName("EditPerson")
+        .Window(wnd => wnd.Title(StoreResourceStrings.UserInfo)))
+	.ClientEvents (evnt => { evnt.OnDataBound ("UserGridOnDataBound");
+	                       	evnt.OnError("ExceptionHandler");
+	})
+	.Pageable(pagerAction => pagerAction.PageSize(20))
+	.KeyboardNavigation()
+	.Sortable()
+	.Filterable()
+	.Render();
+}
+<script type="text/javascript" language="javascript">
+
+    function UserGridOnDataBound( parameters )
+    {
+        $( "input[name='is-active-check-box']" ).each( function ()
+        {
+            if ( $( this ).val() == "true" )
+                $( this ).prop( "checked", true );
+        } );
+    }
+    
+</script>
